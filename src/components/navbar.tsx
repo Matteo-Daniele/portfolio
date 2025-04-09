@@ -30,7 +30,7 @@ export default function Navbar() {
         {/* Left: Profile pic + name */}
         <div className="flex items-center gap-2">
           <div className="relative h-10 w-10 overflow-hidden rounded-full border border-border">
-            <Image src="/placeholder.svg?height=40&width=40" alt="Matte Daniele" fill className="object-cover" />
+            <Image src="/Logo.png" alt="Matte Daniele" fill className="object-cover" />
           </div>
           <span className="font-medium hidden sm:block">Matteo Daniele</span>
         </div>
@@ -50,13 +50,16 @@ export default function Navbar() {
             Contact
           </Link>
         </div>
+        <span className="font-medium md:hidden">Matteo Daniele</span>
 
         {/* Right: CTA and theme toggle */}
         <div className="flex items-center gap-2">
+          <a href="/matteo-daniele-cv.pdf" download>
           <Button variant="outline" size="sm" className="gap-1 hidden sm:flex">
             <Download className="h-4 w-4" />
             <span>Download CV</span>
           </Button>
+          </a>
           <Button
             variant="ghost"
             size="icon"
