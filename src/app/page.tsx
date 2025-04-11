@@ -1,8 +1,9 @@
-import Navbar from "../components/navbar"
-import Hero from "../components/hero"
+import Footer from "@/components/footer"
 import About from "../components/about"
-import Skills from "../components/skills"
+import Hero from "../components/hero"
+import Navbar from "../components/navbar"
 import Projects from "../components/projects"
+import Skills from "../components/skills"
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <About />
       <Skills />
       <Projects />
+      <Footer/>
       {/* Add more sections as needed */}
     </main>
   )

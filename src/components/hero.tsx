@@ -48,8 +48,8 @@ export default function Hero() {
               GitHub Profile
             </Button>
           </a>
-          <a href="/matteo-daniele-cv.pdf" download className="sm:hidden">
-            <Button size="lg" variant="secondary" className="gap-2 bg-background/80">
+          <a href="/matteo-daniele-cv.pdf" download target="_blank" className="sm:hidden">
+            <Button size="lg" variant="outline" className="gap-2 bg-background/80">
               <Download className="h-4 w-4" />
               Download CV
             </Button>
