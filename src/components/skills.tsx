@@ -292,90 +292,109 @@ class SkillCircle {
 }
 
 // Simple animation circle class for mobile version
-class MobileSkillShape {
+class Particle {
   x: number
   y: number
   vx: number
   vy: number
-  size: number
+  radius: number
   skill: (typeof skills)[0]
   alpha: number
-  rotation: number
-  rotationSpeed: number
+  targetAlpha: number
 
   constructor(canvas: HTMLCanvasElement, skill: (typeof skills)[0]) {
     this.skill = skill
-    this.size = 18 * skill.size // Smaller size for mobile circles
-    
-    // Random position within canvas
-    this.x = this.size + Math.random() * (canvas.width - 2 * this.size)
-    this.y = this.size + Math.random() * (canvas.height - 2 * this.size)
-    
-    // Random velocity
-    this.vx = (Math.random() - 0.5) * 0.8
-    this.vy = (Math.random() - 0.5) * 0.8
-    
-    // Rotation for visual effect
-    this.rotation = 0
-    this.rotationSpeed = 0
-    
+    this.radius = 60 * skill.size
+    this.x = Math.random() * (canvas.width - this.radius * 2) + this.radius
+    this.y = Math.random() * (canvas.height - this.radius * 2) + this.radius
+    this.vx = (Math.random() - 0.5) * 1
+    this.vy = (Math.random() - 0.5) * 1
     this.alpha = 0
+    this.targetAlpha = 1
   }
 
   update(canvas: HTMLCanvasElement) {
-    // Fade in animation
-    this.alpha += (1 - this.alpha) * 0.05
-    
-    // Move circle
+    // Update position
     this.x += this.vx
     this.y += this.vy
-    
+
     // Bounce off walls
-    if (this.x - this.size < 0 || this.x + this.size > canvas.width) {
-      this.vx *= -1
+    if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+      this.vx = -this.vx
     }
-    
-    if (this.y - this.size < 0 || this.y + this.size > canvas.height) {
-      this.vy *= -1
+
+    if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {
+      this.vy = -this.vy
     }
+
+    // Fade in/out animation
+    this.alpha += (this.targetAlpha - this.alpha) * 0.05
   }
-  
+
   draw(ctx: CanvasRenderingContext2D, isDarkMode: boolean) {
     const category = this.skill.category as keyof typeof categoryColors
     const colors = categoryColors[category]
-    
+
+    // Adjust colors for dark mode
+    const bgColor = isDarkMode ? colors.bg.replace("0.15", "0.25") : colors.bg
+
+    const textColor = isDarkMode ? "rgba(255, 255, 255, 0.9)" : colors.text
+
+    // Draw pill
     ctx.save()
     ctx.globalAlpha = this.alpha
-    
-    // Draw filled circle
+
+    // Calculate text width to determine pill width
+    ctx.font = "bold 14px Inter, system-ui, sans-serif"
+    const textWidth = ctx.measureText(this.skill.name).width
+
+    const pillWidth = textWidth + 40
+    const pillHeight = 32
+
+    // Draw rounded rectangle
+    const x = this.x - pillWidth / 2
+    const y = this.y - pillHeight / 2
+    const radius = pillHeight / 2
+
     ctx.beginPath()
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-    ctx.fillStyle = colors.bg
+    ctx.moveTo(x + radius, y)
+    ctx.lineTo(x + pillWidth - radius, y)
+    ctx.arcTo(x + pillWidth, y, x + pillWidth, y + radius, radius)
+    ctx.lineTo(x + pillWidth, y + pillHeight - radius)
+    ctx.arcTo(x + pillWidth, y + pillHeight, x + pillWidth - radius, y + pillHeight, radius)
+    ctx.lineTo(x + radius, y + pillHeight)
+    ctx.arcTo(x, y + pillHeight, x, y + pillHeight - radius, radius)
+    ctx.lineTo(x, y + radius)
+    ctx.arcTo(x, y, x + radius, y, radius)
+    ctx.closePath()
+
+    // Fill and stroke
+    ctx.fillStyle = bgColor
     ctx.fill()
     ctx.strokeStyle = colors.border
     ctx.lineWidth = 1.5
     ctx.stroke()
-    
+
     // Draw text
-    const fontSize = Math.max(7, Math.min(10, this.size / 1.5))
-    ctx.fillStyle = colors.text
-    ctx.font = `bold ${fontSize}px Inter, system-ui, sans-serif`
+    ctx.fillStyle = textColor
+    ctx.font = "bold 14px Inter, system-ui, sans-serif"
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
     ctx.fillText(this.skill.name, this.x, this.y)
-    
+
     // Add learning badge if applicable
     if (this.skill.learning) {
-      const badgeRadius = Math.max(2, Math.min(3, this.size / 8))
-      const badgeX = this.x + this.size - badgeRadius
-      const badgeY = this.y - this.size + badgeRadius
-      
+      const badgeWidth = 8
+      const badgeHeight = 8
+      const badgeX = x + pillWidth - badgeWidth - 5
+      const badgeY = y + 5
+
       ctx.beginPath()
-      ctx.arc(badgeX, badgeY, badgeRadius, 0, Math.PI * 2)
-      ctx.fillStyle = "rgba(239, 68, 68, 1)"
+      ctx.arc(badgeX + badgeWidth / 2, badgeY + badgeHeight / 2, badgeWidth / 2, 0, Math.PI * 2)
+      ctx.fillStyle = "rgba(239, 68, 68, 0.9)"
       ctx.fill()
     }
-    
+
     ctx.restore()
   }
 }
@@ -384,7 +403,7 @@ export default function Skills() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mobileCanvasRef = useRef<HTMLCanvasElement>(null)
   const circlesRef = useRef<SkillCircle[]>([])
-  const mobileCirclesRef = useRef<MobileSkillShape[]>([])
+  const particlesRef = useRef<Particle[]>([])
   const animationRef = useRef<number>(0)
   const mobileAnimationRef = useRef<number>(0)
   const [draggedCircle, setDraggedCircle] = useState<SkillCircle | null>(null)
@@ -672,8 +691,8 @@ export default function Skills() {
         mobileCanvasSizeRef.current = { width, height }
         
         // Initialize mobile shapes
-        if (!isMobileInitializedRef.current || mobileCirclesRef.current.length === 0) {
-          mobileCirclesRef.current = skills.map(skill => new MobileSkillShape(canvas, skill))
+        if (!isMobileInitializedRef.current || particlesRef.current.length === 0) {
+          particlesRef.current = skills.map(skill => new Particle(canvas, skill))
           isMobileInitializedRef.current = true
         }
       }
@@ -690,87 +709,14 @@ export default function Skills() {
       ctx.fillStyle = document.documentElement.classList.contains("dark") ? "#1c1c1c" : "#f8f8f8"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       
-      // Draw subtle grid pattern
-      const gridSize = Math.max(10, Math.min(15, canvas.width / 30))
-      ctx.strokeStyle = document.documentElement.classList.contains("dark")
-        ? "rgba(255, 255, 255, 0.03)"
-        : "rgba(0, 0, 0, 0.03)"
-      ctx.lineWidth = 1
-      
-      // Draw vertical lines
-      for (let x = 0; x < canvas.width; x += gridSize) {
-        ctx.beginPath()
-        ctx.moveTo(x, 0)
-        ctx.lineTo(x, canvas.height)
-        ctx.stroke()
-      }
-      
-      // Draw horizontal lines
-      for (let y = 0; y < canvas.height; y += gridSize) {
-        ctx.beginPath()
-        ctx.moveTo(0, y)
-        ctx.lineTo(canvas.width, y)
-        ctx.stroke()
-      }
-      
       // Check if dark mode is enabled
       const isDarkMode = document.documentElement.classList.contains("dark")
       
-      // Update and draw mobile shapes FIRST (so they appear behind text)
-      mobileCirclesRef.current.forEach((shape) => {
-        shape.update(canvas)
-        shape.draw(ctx, isDarkMode)
+      // Update and draw particles
+      particlesRef.current.forEach((particle) => {
+        particle.update(canvas)
+        particle.draw(ctx, isDarkMode)
       })
-      
-      // Calculate responsive font sizes
-      const labelFontSize = Math.max(8, Math.min(12, canvas.width / 60))
-      const titleFontSize = Math.max(14, Math.min(20, canvas.width / 30))
-      const subtitleFontSize = Math.max(10, Math.min(14, canvas.width / 45))
-      
-      // Draw center text
-      const centerX = canvas.width / 2
-      const centerY = canvas.height / 2
-      
-      // Remove the semi-transparent background ellipse and use text shadow instead
-      
-      // Draw label
-      ctx.font = `bold ${labelFontSize}px Inter, system-ui, sans-serif`
-      ctx.textAlign = "center"
-      ctx.textBaseline = "middle"
-      ctx.fillStyle = document.documentElement.classList.contains("dark")
-        ? "rgba(16, 185, 129, 1)"
-        : "rgba(16, 185, 129, 1)"
-      ctx.shadowColor = document.documentElement.classList.contains("dark") 
-        ? "rgba(0, 0, 0, 0.8)" 
-        : "rgba(0, 0, 0, 0.3)"
-      ctx.shadowBlur = 4
-      ctx.fillText("PROPER FULLSTACK", centerX, centerY - (canvas.height / 10))
-      
-      // Draw title
-      ctx.font = `bold ${titleFontSize}px Inter, system-ui, sans-serif`
-      ctx.fillStyle = document.documentElement.classList.contains("dark")
-        ? "rgba(255, 255, 255, 1)"
-        : "rgba(0, 0, 0, 1)"
-      ctx.shadowColor = document.documentElement.classList.contains("dark") 
-        ? "rgba(0, 0, 0, 0.8)" 
-        : "rgba(0, 0, 0, 0.4)"
-      ctx.shadowBlur = 6
-      ctx.fillText("My favorite technologies and skills", centerX, centerY)
-      
-      // Draw subtitle
-      ctx.font = `${subtitleFontSize}px Inter, system-ui, sans-serif`
-      ctx.fillStyle = document.documentElement.classList.contains("dark")
-        ? "rgba(255, 255, 255, 0.8)"
-        : "rgba(0, 0, 0, 0.8)"
-      ctx.shadowColor = document.documentElement.classList.contains("dark") 
-        ? "rgba(0, 0, 0, 0.6)" 
-        : "rgba(0, 0, 0, 0.3)"
-      ctx.shadowBlur = 3
-      ctx.fillText("These are some of the tools I've used to build my projects", centerX, centerY + (canvas.height / 15))
-      
-      // Reset shadow
-      ctx.shadowColor = "transparent"
-      ctx.shadowBlur = 0
       
       mobileAnimationRef.current = requestAnimationFrame(animateMobile)
     }
@@ -793,15 +739,30 @@ export default function Skills() {
             className="w-[90%] h-[600px] md:h-[700px] cursor-grab active:cursor-grabbing rounded-lg shadow-md"
           />
         ) : (
-          <canvas
-            ref={mobileCanvasRef}
-            className="w-[90%] h-[400px] rounded-lg shadow-md"
-          />
+          <div className="relative w-full" style={{ minHeight: "600px" }}>
+            <canvas
+              ref={mobileCanvasRef}
+              className="absolute inset-0 w-full h-full"
+            />
+            
+            {/* Content overlay for mobile */}
+            <div className="flex flex-col items-center justify-center w-full h-full absolute inset-0 z-10 px-4">
+              <div className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4 text-center">
+                Proper fullstack
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-center max-w-xs sm:max-w-sm mx-auto">
+                My favorite technologies and skills
+              </h2>
+              <p className="text-sm sm:text-base text-muted-foreground text-center max-w-xs sm:max-w-md mx-auto">
+                These are some of the tools I&apos;ve used to build my projects
+              </p>
+            </div>
+          </div>
         )}
       </div>
 
       {/* Legend */}
-      <div className="container px-4 md:px-6 mx-auto mt-6 sm:mt-8">
+      <div className="container px-4 md:px-6 mt-6 sm:mt-8">
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: categoryColors.language.bg }}></div>
@@ -826,7 +787,7 @@ export default function Skills() {
           {!isMobile ? (
             <p>Drag the circles to rearrange your skills • Watch them collide and interact with each other</p>
           ) : (
-            <p>Watch the skills bubbles float around and interact with each other</p>
+            <p>Watch the skills floating around as interactive pills</p>
           )}
         </div>
       </div>
