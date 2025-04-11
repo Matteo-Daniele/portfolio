@@ -48,7 +48,7 @@ export default function About() {
       }
       
       // Calculate time components
-      const hours = now.getHours() - dateOfBirth.getHours()
+      const hours = Math.abs(now.getHours() - dateOfBirth.getHours())
       const minutes = now.getMinutes() - dateOfBirth.getMinutes()
       const seconds = now.getSeconds() - dateOfBirth.getSeconds()
       
