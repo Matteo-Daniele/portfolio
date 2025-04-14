@@ -30,23 +30,25 @@ export default function Navbar() {
         {/* Left: Profile pic + name */}
         <div className="flex items-center gap-2">
           <div className="relative h-10 w-10 overflow-hidden rounded-full border border-border">
+            <Link href="/">
             <Image src="/Logo.png" alt="Matte Daniele" fill className="object-cover" />
+            </Link>
           </div>
           <span className="font-medium hidden sm:block">Matteo Daniele</span>
         </div>
 
         {/* Middle: Navigation links */}
         <div className="hidden md:flex items-center gap-6">
-          <Link href="#about" className="text-sm hover:text-primary transition-colors">
+          <Link href="/#about" className="text-sm hover:text-primary transition-colors">
             About
           </Link>
-          <Link href="#projects" className="text-sm hover:text-primary transition-colors">
+          <Link href="/#projects" className="text-sm hover:text-primary transition-colors">
             Projects
           </Link>
-          <Link href="#skills" className="text-sm hover:text-primary transition-colors">
+          <Link href="/#skills" className="text-sm hover:text-primary transition-colors">
             Skills
           </Link>
-          <Link href="#contact" className="text-sm hover:text-primary transition-colors">
+          <Link href="/#contact" className="text-sm hover:text-primary transition-colors">
             Contact
           </Link>
         </div>

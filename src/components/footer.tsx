@@ -26,22 +26,22 @@ export default function Footer() {
             <h3 className="font-medium mb-4">Navigation</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="#about" className="text-sm hover:text-primary transition-colors">
+                <Link href="/#about" className="text-sm hover:text-primary transition-colors">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="#projects" className="text-sm hover:text-primary transition-colors">
+                <Link href="/#projects" className="text-sm hover:text-primary transition-colors">
                   Projects
                 </Link>
               </li>
               <li>
-                <Link href="#skills" className="text-sm hover:text-primary transition-colors">
+                <Link href="/#skills" className="text-sm hover:text-primary transition-colors">
                   Skills
                 </Link>
               </li>
               <li>
-                <Link href="#contact" className="text-sm hover:text-primary transition-colors">
+                <Link href="/#contact" className="text-sm hover:text-primary transition-colors">
                   Contact
                 </Link>
               </li>
@@ -99,7 +99,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="www.linkedin.com/in/matteo-daniele-a39b88250"
+                href="https://www.linkedin.com/in/matteo-daniele-a39b88250/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm flex items-center gap-2 hover:text-primary transition-colors group"
@@ -112,7 +112,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://www.instagram.com/danielematteo_/https://www.instagram.com/danielematteo_/"
+                href="https://www.instagram.com/danielematteo_/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm flex items-center gap-2 hover:text-primary transition-colors group"

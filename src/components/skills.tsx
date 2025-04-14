@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from "react"
 
 // Define all skills
 const skills = [
-  // Languages
-  { name: "C", category: "language", size: 1.0 },
-  { name: "Java", category: "language", size: 1.1 },
-  { name: "HTML", category: "language", size: 1.2 },
-  { name: "CSS", category: "language", size: 1.1 },
-  { name: "JavaScript", category: "language", size: 1.3 },
-  { name: "TypeScript", category: "language", size: 1.2 },
-  { name: "SQL", category: "language", size: 1.0 },
+  // Technologies
+  { name: "C", category: "technology", size: 1.0 },
+  { name: "Java", category: "technology", size: 1.1 },
+  { name: "HTML", category: "technology", size: 1.2 },
+  { name: "CSS", category: "technology", size: 1.1 },
+  { name: "JavaScript", category: "technology", size: 1.3 },
+  { name: "TypeScript", category: "technology", size: 1.2 },
+  { name: "SQL", category: "technology", size: 1.0 },
 
   // Frameworks & Libraries
   { name: "React.js", category: "framework", size: 1.4 },
@@ -32,7 +32,7 @@ const skills = [
 
 // Define colors for different categories
 const categoryColors = {
-  language: {
+  technology: {
     bg: "rgba(16, 185, 129, 1)",
     border: "rgba(10, 148, 103, 1)",
     text: "rgba(255, 255, 255, 1)",
@@ -765,8 +765,8 @@ export default function Skills() {
       <div className="container px-4 md:px-6 mt-6 sm:mt-8">
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: categoryColors.language.bg }}></div>
-            <span className="text-xs sm:text-sm">Languages</span>
+            <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: categoryColors.technology.bg }}></div>
+            <span className="text-xs sm:text-sm">Technologies</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: categoryColors.framework.bg }}></div>
