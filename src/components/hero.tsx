@@ -29,9 +29,9 @@ export default function Hero() {
 
         {/* Two-row subtitle */}
         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto p-2">
-          I build exceptional and accessible digital experiences
+          I build exceptional and accessible digital experiences  
           <br className="hidden sm:block" />
-          for the web and mobile applications.
+          &nbsp;for the web and mobile applications.
         </p>
 
         {/* Two or three buttons */}
