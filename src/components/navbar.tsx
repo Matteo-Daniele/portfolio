@@ -1,15 +1,39 @@
 "use client"
 
-import { Download, Moon, Sun } from "lucide-react"
+import { Download, Languages, Moon, Sun } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useLanguage } from "../components/language-provider"
 import { useTheme } from "../components/theme-provider"
 import { Button } from "../components/ui/button"
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme()
+  const { language, setLanguage } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
+  
+  const translations = {
+    en: {
+      about: "About",
+      projects: "Projects",
+      skills: "Skills",
+      contact: "Contact",
+      downloadCV: "Download CV",
+    },
+    es: {
+      about: "Sobre mí",
+      projects: "Proyectos",
+      skills: "Habilidades",
+      contact: "Contacto",
+      downloadCV: "Descargar CV",
+    },
+  }
+  
+  const t = translations[language]
+  const cvPath = language === "en" 
+    ? "/Matteo-Daniele-Resume-English.pdf" 
+    : "/Matteo-Daniele-CV-Español (1).pdf"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,34 +58,51 @@ export default function Navbar() {
             <Image src="/Logo.png" alt="Matte Daniele" fill className="object-cover" />
             </Link>
           </div>
-          <span className="font-medium hidden sm:block">Matteo Daniele</span>
+          <span className="font-medium">Matteo Daniele</span>
         </div>
 
         {/* Middle: Navigation links */}
         <div className="hidden md:flex items-center gap-6">
           <Link href="/#about" className="text-sm hover:text-primary transition-colors">
-            About
+            {t.about}
           </Link>
           <Link href="/#projects" className="text-sm hover:text-primary transition-colors">
-            Projects
+            {t.projects}
           </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setLanguage(language === "en" ? "es" : "en")}
+            aria-label="Toggle language"
+            className="h-8 w-8"
+          >
+            <Languages className="h-[1.2rem] w-[1.2rem]" />
+          </Button>
           <Link href="/#skills" className="text-sm hover:text-primary transition-colors">
-            Skills
+            {t.skills}
           </Link>
           <Link href="/#contact" className="text-sm hover:text-primary transition-colors">
-            Contact
+            {t.contact}
           </Link>
         </div>
-        <span className="font-medium md:hidden">Matteo Daniele</span>
 
         {/* Right: CTA and theme toggle */}
         <div className="flex items-center gap-2">
-          <a href="/matteo-daniele-cv.pdf" download>
+          <a href={cvPath} download>
           <Button variant="outline" size="sm" className="gap-1 hidden sm:flex">
             <Download className="h-4 w-4" />
-            <span>Download CV</span>
+            <span>{t.downloadCV}</span>
           </Button>
           </a>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setLanguage(language === "en" ? "es" : "en")}
+            aria-label="Toggle language"
+            className="md:hidden h-8 w-8"
+          >
+            <Languages className="h-[1.2rem] w-[1.2rem]" />
+          </Button>
           <Button
             variant="ghost"
             size="icon"

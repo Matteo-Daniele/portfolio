@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useLanguage } from "../components/language-provider"
 
 // Define all skills
 const skills = [
@@ -400,6 +401,7 @@ class Particle {
 }
 
 export default function Skills() {
+  const { language } = useLanguage()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mobileCanvasRef = useRef<HTMLCanvasElement>(null)
   const circlesRef = useRef<SkillCircle[]>([])
@@ -413,6 +415,41 @@ export default function Skills() {
   const isInitializedRef = useRef(false)
   const isMobileInitializedRef = useRef(false)
   const [isMobile, setIsMobile] = useState(false)
+  const languageRef = useRef(language)
+  
+  const translations = {
+    en: {
+      label: "PROPER FULLSTACK",
+      title: "My favorite technologies and skills",
+      subtitle: "These are some of the tools I've used to build my projects",
+      properFullstack: "Proper fullstack",
+      technologies: "Technologies",
+      frameworks: "Frameworks & Libraries",
+      tools: "Tools & Platforms",
+      learning: "Currently Learning",
+      dragInstruction: "Drag the circles to rearrange your skills • Watch them collide and interact with each other",
+      mobileInstruction: "Watch the skills floating around as interactive pills",
+    },
+    es: {
+      label: "FULLSTACK COMPLETO",
+      title: "Mis tecnologías y habilidades favoritas",
+      subtitle: "Estas son algunas de las herramientas que he usado para construir mis proyectos",
+      properFullstack: "Fullstack completo",
+      technologies: "Tecnologías",
+      frameworks: "Frameworks y Librerías",
+      tools: "Herramientas y Plataformas",
+      learning: "Aprendiendo Actualmente",
+      dragInstruction: "Arrastra los círculos para reorganizar tus habilidades • Observa cómo chocan e interactúan entre sí",
+      mobileInstruction: "Observa las habilidades flotando como píldoras interactivas",
+    },
+  }
+  
+  // Update language ref when language changes
+  useEffect(() => {
+    languageRef.current = language
+  }, [language])
+  
+  const getTranslations = () => translations[languageRef.current]
 
   // Check if on mobile/tablet
   useEffect(() => {
@@ -613,6 +650,12 @@ export default function Skills() {
 
       // Remove the semi-transparent background ellipse and use text shadow instead
 
+      // Get current translations
+      const currentTranslations = getTranslations()
+      const labelText = currentTranslations.label
+      const titleText = currentTranslations.title
+      const subtitleText = currentTranslations.subtitle
+      
       // Draw label
       ctx.font = `bold ${labelFontSize}px Inter, system-ui, sans-serif`
       ctx.textAlign = "center"
@@ -624,7 +667,7 @@ export default function Skills() {
         ? "rgba(0, 0, 0, 0.8)" 
         : "rgba(0, 0, 0, 0.3)"
       ctx.shadowBlur = 5
-      ctx.fillText("PROPER FULLSTACK", centerX, centerY - (canvas.height / 12))
+      ctx.fillText(labelText, centerX, centerY - (canvas.height / 12))
 
       // Draw title
       ctx.font = `bold ${titleFontSize}px Inter, system-ui, sans-serif`
@@ -635,7 +678,7 @@ export default function Skills() {
         ? "rgba(0, 0, 0, 0.8)" 
         : "rgba(0, 0, 0, 0.4)"
       ctx.shadowBlur = 8
-      ctx.fillText("My favorite technologies and skills", centerX, centerY)
+      ctx.fillText(titleText, centerX, centerY)
 
       // Draw subtitle
       ctx.font = `${subtitleFontSize}px Inter, system-ui, sans-serif`
@@ -646,7 +689,7 @@ export default function Skills() {
         ? "rgba(0, 0, 0, 0.6)" 
         : "rgba(0, 0, 0, 0.3)"
       ctx.shadowBlur = 4
-      ctx.fillText("These are some of the tools I've used to build my projects", centerX, centerY + (canvas.height / 20))
+      ctx.fillText(subtitleText, centerX, centerY + (canvas.height / 20))
       
       // Reset shadow
       ctx.shadowColor = "transparent"
@@ -748,13 +791,13 @@ export default function Skills() {
             {/* Content overlay for mobile */}
             <div className="flex flex-col items-center justify-center w-full h-full absolute inset-0 z-10 px-4">
               <div className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4 text-center">
-                Proper fullstack
+                {translations[language].properFullstack}
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-center max-w-xs sm:max-w-sm mx-auto">
-                My favorite technologies and skills
+                {translations[language].title}
               </h2>
               <p className="text-sm sm:text-base text-muted-foreground text-center max-w-xs sm:max-w-md mx-auto">
-                These are some of the tools I&apos;ve used to build my projects
+                {translations[language].subtitle}
               </p>
             </div>
           </div>
@@ -766,28 +809,28 @@ export default function Skills() {
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: categoryColors.technology.bg }}></div>
-            <span className="text-xs sm:text-sm">Technologies</span>
+            <span className="text-xs sm:text-sm">{translations[language].technologies}</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: categoryColors.framework.bg }}></div>
-            <span className="text-xs sm:text-sm">Frameworks & Libraries</span>
+            <span className="text-xs sm:text-sm">{translations[language].frameworks}</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: categoryColors.tool.bg }}></div>
-            <span className="text-xs sm:text-sm">Tools & Platforms</span>
+            <span className="text-xs sm:text-sm">{translations[language].tools}</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full" style={{ backgroundColor: "rgba(239, 68, 68, 1)" }}></div>
-            <span className="text-xs sm:text-sm">Currently Learning</span>
+            <span className="text-xs sm:text-sm">{translations[language].learning}</span>
           </div>
         </div>
 
         {/* Instruction - different for mobile and desktop */}
         <div className="text-center mt-3 sm:mt-4 text-xs sm:text-sm text-muted-foreground">
           {!isMobile ? (
-            <p>Drag the circles to rearrange your skills • Watch them collide and interact with each other</p>
+            <p>{translations[language].dragInstruction}</p>
           ) : (
-            <p>Watch the skills floating around as interactive pills</p>
+            <p>{translations[language].mobileInstruction}</p>
           )}
         </div>
       </div>

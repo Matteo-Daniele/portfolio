@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Github 
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { useLanguage } from "@/components/language-provider"
 
 // Project images data
 const projectImages = [
@@ -27,9 +28,117 @@ const projectImages = [
 ]
 
 export default function RentacarProjectPage() {
+  const { language } = useLanguage()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  
+  const translations = {
+    en: {
+      backToProjects: "Back to projects",
+      webApplication: "Web Application",
+      subtitle: "Car rental administration system",
+      projectOverview: "Project Overview",
+      overviewText: "Rent a Car is a comprehensive administration application for a car rental company. The system allows users to register and log in, make reservations, and view available cars with advanced filtering options for dates, time, mileage, color, and more. The application is fully responsive, working seamlessly on both mobile and desktop devices.",
+      developmentProcess: "Development Process",
+      processIntro: "This project was developed as part of a multidisciplinary team, working closely with a product manager and other developers. The development process included:",
+      process1: "Requirements gathering and system architecture planning",
+      process2: "Database schema design for vehicle inventory and reservation management",
+      process3: "Frontend development with React.js and Tailwind CSS",
+      process4: "Backend API development with Node.js",
+      process5: "Integration with MongoDB for data storage",
+      process6: "Implementation of Cloudinary for vehicle image management",
+      process7: "Containerization with Docker for consistent deployment",
+      process8: "Extensive testing and quality assurance",
+      process9: "Deployment and monitoring",
+      keyFeatures: "Key Features",
+      userAuth: "User Authentication",
+      userAuthDesc: "Secure registration and login system for customers and administrators",
+      advancedFiltering: "Advanced Filtering",
+      advancedFilteringDesc: "Search vehicles by date, time, mileage, color, and other specifications",
+      reservationManagement: "Reservation Management",
+      reservationManagementDesc: "Create, view, modify, and cancel reservations with real-time availability",
+      vehicleManagement: "Vehicle Management",
+      vehicleManagementDesc: "Add, edit, and manage vehicle inventory with detailed specifications",
+      branchManagement: "Branch Location Management",
+      branchManagementDesc: "Support for multiple rental locations with different vehicle availability",
+      responsiveDesign: "Responsive Design",
+      responsiveDesignDesc: "Optimized user experience on both mobile and desktop devices",
+      challenges: "Challenges & Solutions",
+      challenge1: "Challenge: Complex reservation system",
+      challenge1Text: "Implementing a reservation system that could handle overlapping bookings, different pickup/return locations, and varying pricing models.",
+      solution1: "Solution:",
+      solution1Text: "Developed a sophisticated availability algorithm that checks vehicle status across multiple parameters and locations, with a flexible pricing engine that supports dynamic rates based on duration, season, and vehicle type.",
+      challenge2: "Challenge: Team collaboration",
+      challenge2Text: "Coordinating development efforts across a multidisciplinary team with different areas of expertise.",
+      solution2: "Solution:",
+      solution2Text: "Implemented an agile development methodology with regular sprint planning, daily standups, and retrospectives. Used Git for version control with a structured branching strategy and pull request reviews.",
+      projectDetails: "Project Details",
+      client: "Client",
+      timeline: "Timeline",
+      role: "My Role",
+      teamSize: "Team Size",
+      technologiesUsed: "Technologies Used",
+      links: "Links",
+      viewSource: "View Source Code",
+      viewDemo: "View Demo",
+      previousProject: "Previous Project: Migafina",
+      backToAllProjects: "Back to All Projects",
+    },
+    es: {
+      backToProjects: "Volver a proyectos",
+      webApplication: "Aplicación Web",
+      subtitle: "Sistema de administración de alquiler de autos",
+      projectOverview: "Resumen del Proyecto",
+      overviewText: "Rent a Car es una aplicación integral de administración para una empresa de alquiler de autos. El sistema permite a los usuarios registrarse e iniciar sesión, hacer reservas y ver autos disponibles con opciones avanzadas de filtrado para fechas, hora, kilometraje, color y más. La aplicación es completamente responsiva, funcionando perfectamente tanto en dispositivos móviles como de escritorio.",
+      developmentProcess: "Proceso de Desarrollo",
+      processIntro: "Este proyecto fue desarrollado como parte de un equipo multidisciplinario, trabajando en estrecha colaboración con un gerente de producto y otros desarrolladores. El proceso de desarrollo incluyó:",
+      process1: "Recopilación de requisitos y planificación de arquitectura del sistema",
+      process2: "Diseño de esquema de base de datos para inventario de vehículos y gestión de reservas",
+      process3: "Desarrollo frontend con React.js y Tailwind CSS",
+      process4: "Desarrollo de API backend con Node.js",
+      process5: "Integración con MongoDB para almacenamiento de datos",
+      process6: "Implementación de Cloudinary para gestión de imágenes de vehículos",
+      process7: "Containerización con Docker para despliegue consistente",
+      process8: "Pruebas exhaustivas y aseguramiento de calidad",
+      process9: "Despliegue y monitoreo",
+      keyFeatures: "Características Clave",
+      userAuth: "Autenticación de Usuario",
+      userAuthDesc: "Sistema seguro de registro e inicio de sesión para clientes y administradores",
+      advancedFiltering: "Filtrado Avanzado",
+      advancedFilteringDesc: "Buscar vehículos por fecha, hora, kilometraje, color y otras especificaciones",
+      reservationManagement: "Gestión de Reservas",
+      reservationManagementDesc: "Crear, ver, modificar y cancelar reservas con disponibilidad en tiempo real",
+      vehicleManagement: "Gestión de Vehículos",
+      vehicleManagementDesc: "Agregar, editar y gestionar inventario de vehículos con especificaciones detalladas",
+      branchManagement: "Gestión de Ubicaciones de Sucursales",
+      branchManagementDesc: "Soporte para múltiples ubicaciones de alquiler con diferente disponibilidad de vehículos",
+      responsiveDesign: "Diseño Responsivo",
+      responsiveDesignDesc: "Experiencia de usuario optimizada tanto en dispositivos móviles como de escritorio",
+      challenges: "Desafíos y Soluciones",
+      challenge1: "Desafío: Sistema de reservas complejo",
+      challenge1Text: "Implementar un sistema de reservas que pudiera manejar reservas superpuestas, diferentes ubicaciones de recogida/devolución y modelos de precios variables.",
+      solution1: "Solución:",
+      solution1Text: "Se desarrolló un algoritmo sofisticado de disponibilidad que verifica el estado de los vehículos en múltiples parámetros y ubicaciones, con un motor de precios flexible que admite tarifas dinámicas basadas en duración, temporada y tipo de vehículo.",
+      challenge2: "Desafío: Colaboración en equipo",
+      challenge2Text: "Coordinar los esfuerzos de desarrollo en un equipo multidisciplinario con diferentes áreas de experiencia.",
+      solution2: "Solución:",
+      solution2Text: "Se implementó una metodología de desarrollo ágil con planificación regular de sprints, reuniones diarias y retrospectivas. Se usó Git para control de versiones con una estrategia de ramificación estructurada y revisiones de pull requests.",
+      projectDetails: "Detalles del Proyecto",
+      client: "Cliente",
+      timeline: "Cronograma",
+      role: "Mi Rol",
+      teamSize: "Tamaño del Equipo",
+      technologiesUsed: "Tecnologías Utilizadas",
+      links: "Enlaces",
+      viewSource: "Ver Código Fuente",
+      viewDemo: "Ver Demo",
+      previousProject: "Proyecto Anterior: Migafina",
+      backToAllProjects: "Volver a Todos los Proyectos",
+    },
+  }
+  
+  const t = translations[language]
 
   const goToNext = () => {
     if (isAnimating) return
@@ -72,16 +181,16 @@ export default function RentacarProjectPage() {
             className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to projects
+            {t.backToProjects}
           </Link>
 
           {/* Project header */}
           <div className="flex flex-col gap-4 mb-12">
             <Badge className="w-fit" variant="outline">
-              Web Application
+              {t.webApplication}
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold">Rent a Car</h1>
-            <p className="text-xl text-muted-foreground">Car rental administration system</p>
+            <p className="text-xl text-muted-foreground">{t.subtitle}</p>
           </div>
 
           {/* Project images showcase */}
@@ -170,12 +279,9 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.projectOverview}</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Rent a Car is a comprehensive administration application for a car rental company. The system allows
-                  users to register and log in, make reservations, and view available cars with advanced filtering
-                  options for dates, time, mileage, color, and more. The application is fully responsive, working
-                  seamlessly on both mobile and desktop devices.
+                  {t.overviewText}
                 </p>
               </motion.section>
 
@@ -184,21 +290,20 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <h2 className="text-2xl font-bold mb-4">Development Process</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.developmentProcess}</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  This project was developed as part of a multidisciplinary team, working closely with a product manager
-                  and other developers. The development process included:
+                  {t.processIntro}
                 </p>
                 <ol className="list-decimal pl-5 space-y-2 text-muted-foreground">
-                  <li>Requirements gathering and system architecture planning</li>
-                  <li>Database schema design for vehicle inventory and reservation management</li>
-                  <li>Frontend development with React.js and Tailwind CSS</li>
-                  <li>Backend API development with Node.js</li>
-                  <li>Integration with MongoDB for data storage</li>
-                  <li>Implementation of Cloudinary for vehicle image management</li>
-                  <li>Containerization with Docker for consistent deployment</li>
-                  <li>Extensive testing and quality assurance</li>
-                  <li>Deployment and monitoring</li>
+                  <li>{t.process1}</li>
+                  <li>{t.process2}</li>
+                  <li>{t.process3}</li>
+                  <li>{t.process4}</li>
+                  <li>{t.process5}</li>
+                  <li>{t.process6}</li>
+                  <li>{t.process7}</li>
+                  <li>{t.process8}</li>
+                  <li>{t.process9}</li>
                 </ol>
               </motion.section>
 
@@ -207,42 +312,42 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
-                <h2 className="text-2xl font-bold mb-4">Key Features</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.keyFeatures}</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">User Authentication</h3>
+                    <h3 className="font-medium mb-2">{t.userAuth}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Secure registration and login system for customers and administrators
+                      {t.userAuthDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Advanced Filtering</h3>
+                    <h3 className="font-medium mb-2">{t.advancedFiltering}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Search vehicles by date, time, mileage, color, and other specifications
+                      {t.advancedFilteringDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Reservation Management</h3>
+                    <h3 className="font-medium mb-2">{t.reservationManagement}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Create, view, modify, and cancel reservations with real-time availability
+                      {t.reservationManagementDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Vehicle Management</h3>
+                    <h3 className="font-medium mb-2">{t.vehicleManagement}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Add, edit, and manage vehicle inventory with detailed specifications
+                      {t.vehicleManagementDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Branch Location Management</h3>
+                    <h3 className="font-medium mb-2">{t.branchManagement}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Support for multiple rental locations with different vehicle availability
+                      {t.branchManagementDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Responsive Design</h3>
+                    <h3 className="font-medium mb-2">{t.responsiveDesign}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Optimized user experience on both mobile and desktop devices
+                      {t.responsiveDesignDesc}
                     </p>
                   </li>
                 </ul>
@@ -253,36 +358,30 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
-                <h2 className="text-2xl font-bold mb-4">Challenges & Solutions</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.challenges}</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-medium">Challenge: Complex reservation system</h3>
+                    <h3 className="font-medium">{t.challenge1}</h3>
                     <p className="text-muted-foreground">
-                      Implementing a reservation system that could handle overlapping bookings, different pickup/return
-                      locations, and varying pricing models.
+                      {t.challenge1Text}
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-medium">Solution:</h3>
+                    <h3 className="font-medium">{t.solution1}</h3>
                     <p className="text-muted-foreground">
-                      Developed a sophisticated availability algorithm that checks vehicle status across multiple
-                      parameters and locations, with a flexible pricing engine that supports dynamic rates based on
-                      duration, season, and vehicle type.
+                      {t.solution1Text}
                     </p>
                   </div>
                   <div className="mt-4">
-                    <h3 className="font-medium">Challenge: Team collaboration</h3>
+                    <h3 className="font-medium">{t.challenge2}</h3>
                     <p className="text-muted-foreground">
-                      Coordinating development efforts across a multidisciplinary team with different areas of
-                      expertise.
+                      {t.challenge2Text}
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-medium">Solution:</h3>
+                    <h3 className="font-medium">{t.solution2}</h3>
                     <p className="text-muted-foreground">
-                      Implemented an agile development methodology with regular sprint planning, daily standups, and
-                      retrospectives. Used Git for version control with a structured branching strategy and pull request
-                      reviews.
+                      {t.solution2Text}
                     </p>
                   </div>
                 </div>
@@ -296,23 +395,23 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <h2 className="text-xl font-bold mb-4">Project Details</h2>
+                <h2 className="text-xl font-bold mb-4">{t.projectDetails}</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">Client</h3>
-                    <p>Premium Car Rentals</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.client}</h3>
+                    <p>Martinez Rent a Car</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">Timeline</h3>
-                    <p>3 months</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.timeline}</h3>
+                    <p>{language === "en" ? "3 months" : "3 meses"}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">My Role</h3>
-                    <p>Full-stack Developer</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.role}</h3>
+                    <p>{language === "en" ? "Full-stack Developer" : "Desarrollador Full-stack"}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">Team Size</h3>
-                    <p>3 members</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.teamSize}</h3>
+                    <p>{language === "en" ? "3 members" : "3 miembros"}</p>
                   </div>
                 </div>
               </motion.section>
@@ -322,7 +421,7 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
-                <h2 className="text-xl font-bold mb-4">Technologies Used</h2>
+                <h2 className="text-xl font-bold mb-4">{t.technologiesUsed}</h2>
                 <div className="flex flex-wrap gap-2">
                   <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">React.js</Badge>
                   <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Tailwind CSS</Badge>
@@ -340,7 +439,7 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 }}
               >
-                <h2 className="text-xl font-bold mb-4">Links</h2>
+                <h2 className="text-xl font-bold mb-4">{t.links}</h2>
                 <div className="space-y-3">
                   <Button
                     asChild
@@ -349,7 +448,7 @@ export default function RentacarProjectPage() {
                   >
                     <a href="https://github.com/Matteo-Daniele" target="_blank" rel="noopener noreferrer">
                       <Github className="mr-2 h-4 w-4" />
-                      View Source Code
+                      {t.viewSource}
                     </a>
                   </Button>
                   <Button
@@ -358,7 +457,7 @@ export default function RentacarProjectPage() {
                   >
                     <a href="/" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-4 w-4" />
-                      View Demo
+                      {t.viewDemo}
                     </a>
                   </Button>
                 </div>
@@ -379,13 +478,13 @@ export default function RentacarProjectPage() {
                 className="group inline-flex items-center text-primary font-medium hover:underline"
               >
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                Previous Project: Migafina
+                {t.previousProject}
               </Link>
               <Link
                 href="/#projects"
                 className="group inline-flex items-center text-primary font-medium hover:underline"
               >
-                Back to All Projects
+                {t.backToAllProjects}
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

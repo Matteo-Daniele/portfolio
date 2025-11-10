@@ -2,11 +2,54 @@
 
 import { Clock } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useLanguage } from "../components/language-provider"
 
 export default function About() {
+  const { language } = useLanguage()
   const [currentWord, setCurrentWord] = useState(0)
   const [currentTime, setCurrentTime] = useState("")
-  const carouselWords = ["learner", "team player", "problem solver", "curious", "self-driven"]
+  
+  const carouselWords = {
+    en: ["learner", "team player", "problem solver", "curious", "self-driven"],
+    es: ["aprendiz", "trabajador en equipo", "solucionador de problemas", "curioso", "autodirigido"]
+  }
+  
+  const words = carouselWords[language]
+  
+  const translations = {
+    en: {
+      title: "I'm a",
+      basedIn: "Based in",
+      age: "Age",
+      years: "years",
+      months: "months",
+      days: "days",
+      hours: "hours",
+      minutes: "minutes",
+      seconds: "seconds",
+      education: "Education",
+      graduatedFrom: "Graduated from UTN",
+      aboutMe: "About me",
+      bio: "I'm a fullstack developer looking to find my first job in the software industry. Eager to learn and collaborate with talented people, I'm confident I can make a significant positive impact at the work environment. Available for remote and on-site jobs.",
+    },
+    es: {
+      title: "Soy un",
+      basedIn: "Ubicado en",
+      age: "Edad",
+      years: "años",
+      months: "meses",
+      days: "días",
+      hours: "horas",
+      minutes: "minutos",
+      seconds: "segundos",
+      education: "Educación",
+      graduatedFrom: "Graduado de UTN",
+      aboutMe: "Sobre mí",
+      bio: "Soy un desarrollador fullstack buscando encontrar mi primer trabajo en la industria del software. Ansioso por aprender y colaborar con personas talentosas, estoy seguro de que puedo generar un impacto positivo significativo en el entorno laboral. Disponible para trabajos remotos y presenciales.",
+    },
+  }
+  
+  const t = translations[language]
   const dateOfBirth = new Date("2003-12-12T08:00:00")
   const [age, setAge] = useState({ years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 })
 
@@ -64,11 +107,11 @@ export default function About() {
   // Text carousel effect
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % carouselWords.length)
+      setCurrentWord((prev) => (prev + 1) % words.length)
     }, 2000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [words.length])
 
   // Local time in Mar del Plata
   useEffect(() => {
@@ -101,11 +144,11 @@ export default function About() {
   return (
     <section id="about" className="py-20 bg-[#f8f8f8] dark:bg-[#1c1c1c]">
       <div className="container px-4 md:px-6 mx-auto">
-        <div className="flex flex-col items-center justify-center mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-8 flex items-center justify-center flex-wrap">
-            <span>I&apos;m a&nbsp;</span>
-            <span className="text-primary relative inline-block" style={{ minWidth: "auto" }}>
-              {carouselWords.map((word, index) => (
+        <div className="flex flex-col items-center justify-center mb-12 w-full">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-8 flex items-center justify-center flex-wrap max-w-full px-4">
+            <span>{t.title}&nbsp;</span>
+            <span className="text-primary relative inline-block" style={{ minWidth: "auto", maxWidth: "calc(100vw - 2rem)" }}>
+              {words.map((word, index) => (
                 <span
                   key={index}
                   className="absolute left-0 whitespace-nowrap font-bold"
@@ -129,7 +172,7 @@ export default function About() {
                         opacity: currentWord === index ? 1 : 0,
                         transform: currentWord === index 
                           ? "translateY(0)"
-                          : index < currentWord || (currentWord === 0 && index === carouselWords.length - 1)
+                          : index < currentWord || (currentWord === 0 && index === words.length - 1)
                             ? "translateY(-15px)"
                             : "translateY(15px)",
                       }}
@@ -140,7 +183,7 @@ export default function About() {
                 </span>
               ))}
               <span className="invisible" style={{ display: "inline-block" }}>
-                {carouselWords[currentWord]}
+                {words[currentWord]}
               </span>
             </span>
           </h2>
@@ -151,7 +194,7 @@ export default function About() {
           {/* Item 1: Location (spans 2 cols on md+) */}
           <div className="bg-white dark:bg-[#252525] rounded-xl p-4 sm:p-6 shadow-sm md:col-span-2 flex flex-col h-full relative overflow-hidden group transition-all duration-300 hover:shadow-md hover:bg-white/80 dark:hover:bg-[#252525]/80">
             <div className="absolute -right-10 -top-10 w-32 h-32 bg-transparent rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-primary/10 group-hover:blur-[15px]"></div>
-            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">Based in</h3>
+            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">{t.basedIn}</h3>
             <div className="flex justify-between items-start relative z-10">
               <p className="text-xl sm:text-2xl font-bold transition-all duration-300 group-hover:translate-x-1">
                 Mar del Plata, Argentina
@@ -166,12 +209,12 @@ export default function About() {
           {/* Item 2: Age */}
           <div className="bg-white dark:bg-[#252525] rounded-xl p-4 sm:p-6 shadow-sm flex flex-col h-full relative overflow-hidden group transition-all duration-300 hover:shadow-md hover:-translate-y-1">
             <div className="absolute -left-10 -bottom-10 w-24 h-24 bg-transparent rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-primary/10 group-hover:blur-[12px]"></div>
-            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">Age</h3>
+            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">{t.age}</h3>
             <p className="text-lg sm:text-xl font-bold relative z-10 transition-all duration-300 group-hover:translate-x-1">
-              {age.years} years {age.months} months {age.days} days
+              {age.years} {t.years} {age.months} {t.months} {age.days} {t.days}
             </p>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1 relative z-10">
-              {age.hours} hours {age.minutes} minutes {age.seconds} seconds
+              {age.hours} {t.hours} {age.minutes} {t.minutes} {age.seconds} {t.seconds}
             </p>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1 relative z-10">12/12/2003</p>
           </div>
@@ -179,9 +222,9 @@ export default function About() {
           {/* Item 3: Education */}
           <div className="bg-white dark:bg-[#252525] rounded-xl p-4 sm:p-6 shadow-sm flex flex-col h-full relative overflow-hidden group transition-all duration-300 hover:shadow-md hover:-translate-y-1">
             <div className="absolute -right-10 -bottom-10 w-24 h-24 bg-transparent rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-primary/10 group-hover:blur-[12px]"></div>
-            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">Education</h3>
+            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">{t.education}</h3>
             <p className="text-lg sm:text-2xl font-bold relative z-10 transition-all duration-300 group-hover:translate-x-1">
-              Graduated from UTN
+              {t.graduatedFrom}
             </p>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1 relative z-10">2025</p>
           </div>
@@ -191,11 +234,9 @@ export default function About() {
             <div className="absolute -right-20 -top-20 w-40 h-40 bg-transparent rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-primary/10 group-hover:blur-[20px]"></div>
             <div className="absolute -left-20 -bottom-20 w-40 h-40 bg-transparent rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-primary/10 group-hover:blur-[20px]"></div>
 
-            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">About me</h3>
+            <h3 className="text-base sm:text-lg font-medium mb-2 text-primary relative z-10">{t.aboutMe}</h3>
             <p className="text-base sm:text-lg leading-relaxed relative z-10 transition-all duration-300 group-hover:translate-x-1">
-              I&apos;m a fullstack developer looking to find my first job in the software industry. Eager to learn and
-              collaborate with talented people, I&apos;m confident I can make a significant positive impact at the work
-              environment. Available for remote and on-site jobs.
+              {t.bio}
             </p>
           </div>
         </div>

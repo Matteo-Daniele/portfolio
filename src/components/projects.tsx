@@ -7,42 +7,75 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { useInView } from "react-intersection-observer"
+import { useLanguage } from "../components/language-provider"
 
 // Sample project data - replace with your actual projects
-const projectsData = [
-  {
-    id: 1,
-    title: "Migafina",
-    subtitle: "Bakery website with responsive design",
-    description:
-      "Migafina.uy is a responsive website developed for a bakery in Uruguay. The application provides comprehensive information about the bakery, including their social media presence, product offerings, and physical locations. The website is fully responsive, ensuring a seamless experience across both mobile and desktop devices.",
-    image: "/images/migafina-desktop.png",
-    logo: "/images/migafina-mobile.png",
-    tags: ["Next.js", "React", "JavaScript", "CSS", "Responsive Design", "Vercel"],
-    caseStudyUrl: "/projects/migafina",
-    featured: true,
-    category: "Web App",
-  },
-  {
-    id: 2,
-    title: "Rent a Car",
-    subtitle: "Car rental administration system",
-    description:
-      "Rent a Car is a comprehensive administration application for a car rental company. The system allows users to register and log in, make reservations, and view available cars with advanced filtering options for dates, time, mileage, color, and more. The application is fully responsive, working seamlessly on both mobile and desktop devices.",
-    image: "/images/rentacar-desktop1.png",
-    logo: "/images/Car-icon.png",
-    tags: ["React.js", "Node.js", "MongoDB", "Tailwind CSS", "Docker", "Cloudinary"],
-    caseStudyUrl: "/projects/rentacar",
-    featured: true,
-    category: "Web App",
-  }
-]
-
-// Filter categories
-const categories = ["All", "Featured", "Web App", "Mobile", "Design"]
+// Note: Subtitles will be translated dynamically based on language
 
 export default function Projects() {
+  const { language } = useLanguage()
   const [activeCategory, setActiveCategory] = useState("All")
+  
+  const categories = {
+    en: ["All", "Featured", "Web App", "Mobile", "Design"],
+    es: ["Todos", "Destacados", "Aplicación Web", "Móvil", "Diseño"]
+  }
+  
+  const categoryList = categories[language]
+  
+  const translations = {
+    en: {
+      myWork: "My Work",
+      featuredProjects: "Featured Projects",
+      description: "Here are some of the projects I've worked on. Each one has presented unique challenges and opportunities for growth.",
+      readCaseStudy: "Read case study",
+      viewAllProjects: "View All Projects",
+      noProjects: "No projects found for the selected category.",
+    },
+    es: {
+      myWork: "Mi Trabajo",
+      featuredProjects: "Proyectos Destacados",
+      description: "Aquí hay algunos de los proyectos en los que he trabajado. Cada uno ha presentado desafíos únicos y oportunidades de crecimiento.",
+      readCaseStudy: "Leer estudio de caso",
+      viewAllProjects: "Ver Todos los Proyectos",
+      noProjects: "No se encontraron proyectos para la categoría seleccionada.",
+    },
+  }
+  
+  const t = translations[language]
+  
+  // Project data with translations
+  const projectsData = [
+    {
+      id: 1,
+      title: "Migafina",
+      subtitle: language === "en" ? "Bakery website with responsive design" : "Sitio web de panadería con diseño responsivo",
+      description: language === "en"
+        ? "Migafina.uy is a responsive website developed for a bakery in Uruguay. The application provides comprehensive information about the bakery, including their social media presence, product offerings, and physical locations. The website is fully responsive, ensuring a seamless experience across both mobile and desktop devices."
+        : "Migafina.uy es un sitio web responsivo desarrollado para una panadería en Uruguay. La aplicación proporciona información completa sobre la panadería, incluyendo su presencia en redes sociales, ofertas de productos y ubicaciones físicas. El sitio web es completamente responsivo, garantizando una experiencia fluida tanto en dispositivos móviles como de escritorio.",
+      image: "/images/migafina-desktop.png",
+      logo: "/images/migafina-mobile.png",
+      tags: ["Next.js", "React", "JavaScript", "CSS", "Responsive Design", "Vercel"],
+      caseStudyUrl: "/projects/migafina",
+      featured: true,
+      category: "Web App",
+    },
+    {
+      id: 2,
+      title: "Rent a Car",
+      subtitle: language === "en" ? "Car rental administration system" : "Sistema de administración de alquiler de autos",
+      description: language === "en"
+        ? "Rent a Car is a comprehensive administration application for a car rental company. The system allows users to register and log in, make reservations, and view available cars with advanced filtering options for dates, time, mileage, color, and more. The application is fully responsive, working seamlessly on both mobile and desktop devices."
+        : "Rent a Car es una aplicación integral de administración para una empresa de alquiler de autos. El sistema permite a los usuarios registrarse e iniciar sesión, hacer reservas y ver autos disponibles con opciones avanzadas de filtrado para fechas, hora, kilometraje, color y más. La aplicación es completamente responsiva, funcionando perfectamente tanto en dispositivos móviles como de escritorio.",
+      image: "/images/rentacar-desktop1.png",
+      logo: "/images/Car-icon.png",
+      tags: ["React.js", "Node.js", "MongoDB", "Tailwind CSS", "Docker", "Cloudinary"],
+      caseStudyUrl: "/projects/rentacar",
+      featured: true,
+      category: "Web App",
+    }
+  ]
+  
   // Create refs array for all possible projects
   const projectRefs = projectsData.map(() => useInView({
     triggerOnce: true,
@@ -56,9 +89,14 @@ export default function Projects() {
 
   // Filter projects based on active category
   const filteredProjects = projectsData.filter((project) => {
-    if (activeCategory === "All") return true;
-    if (activeCategory === "Featured") return project.featured;
-    if (activeCategory === "Mobile" || activeCategory === "Design") return false;
+    const allCategories = { en: "All", es: "Todos" }
+    const featuredCategories = { en: "Featured", es: "Destacados" }
+    const webAppCategories = { en: "Web App", es: "Aplicación Web" }
+    
+    if (activeCategory === allCategories[language] || activeCategory === "All") return true;
+    if (activeCategory === featuredCategories[language] || activeCategory === "Featured") return project.featured;
+    if (activeCategory === "Mobile" || activeCategory === "Móvil" || activeCategory === "Design" || activeCategory === "Diseño") return false;
+    if (activeCategory === webAppCategories[language] || activeCategory === "Web App") return project.category === "Web App";
     return project.category === activeCategory;
   });
 
@@ -67,18 +105,17 @@ export default function Projects() {
       <div className="container px-4 md:px-6 mx-auto overflow-hidden">
         <div className="flex flex-col items-center justify-center mb-12">
           <div className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
-            My Work
+            {t.myWork}
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Featured Projects</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">{t.featuredProjects}</h2>
           <p className="text-lg text-muted-foreground text-center max-w-2xl">
-            Here are some of the projects I&apos;ve worked on. Each one has presented unique challenges and
-            opportunities for growth.
+            {t.description}
           </p>
         </div>
 
         {/* Filter tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((category) => (
+          {categoryList.map((category) => (
             <button
               key={category}
               type="button"
@@ -94,14 +131,9 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Debug info - remove in production */}
-        <div className="text-center text-sm mb-4 text-muted-foreground">
-          Active Category: {activeCategory} | Projects: {filteredProjects.length}
-        </div>
-
         {filteredProjects.length === 0 ? (
           <div className="text-center text-lg text-muted-foreground my-16 min-h-[200px] flex items-center justify-center">
-            No projects found for the selected category.
+            {t.noProjects}
           </div>
         ) : (
           <div className="space-y-16">
@@ -168,7 +200,7 @@ export default function Projects() {
                       href={project.caseStudyUrl}
                       className="inline-flex items-center text-primary font-medium hover:underline mt-4"
                     >
-                      Read case study
+                      {t.readCaseStudy}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </div>
@@ -198,7 +230,7 @@ export default function Projects() {
             href="/projects"
             className="inline-flex items-center px-6 py-3 rounded-full bg-primary/10 text-primary font-medium hover:bg-primary/20 transition-colors"
           >
-            View All Projects
+            {t.viewAllProjects}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>

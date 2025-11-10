@@ -1,9 +1,42 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Download, ExternalLink, Github, Instagram, Linkedin, Mail, Phone } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useLanguage } from "../components/language-provider"
 
 export default function Footer() {
+  const { language } = useLanguage()
+  
+  const translations = {
+    en: {
+      bio: "Full-stack developer passionate about creating exceptional digital experiences with modern technologies.",
+      navigation: "Navigation",
+      contact: "Contact",
+      connect: "Connect",
+      downloadCV: "Download CV",
+      privacyPolicy: "Privacy Policy",
+      termsOfService: "Terms of Service",
+      allRightsReserved: "All rights reserved.",
+    },
+    es: {
+      bio: "Desarrollador full-stack apasionado por crear experiencias digitales excepcionales con tecnologías modernas.",
+      navigation: "Navegación",
+      contact: "Contacto",
+      connect: "Conectar",
+      downloadCV: "Descargar CV",
+      privacyPolicy: "Política de Privacidad",
+      termsOfService: "Términos de Servicio",
+      allRightsReserved: "Todos los derechos reservados.",
+    },
+  }
+  
+  const t = translations[language]
+  const cvPath = language === "en" 
+    ? "/Matteo-Daniele-Resume-English.pdf" 
+    : "/Matteo-Daniele-CV-Español (1).pdf"
+  
   return (
     <footer className="bg-[#f8f8f8] dark:bg-[#1c1c1c] border-t border-border/40">
       <div className="container px-4 md:px-6 py-12 md:py-16">
@@ -17,32 +50,32 @@ export default function Footer() {
               <span className="font-medium">Matteo Daniele</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Full-stack developer passionate about creating exceptional digital experiences with modern technologies.
+              {t.bio}
             </p>
           </div>
 
           {/* Column 2: Navigation */}
           <div className="md:col-span-1">
-            <h3 className="font-medium mb-4">Navigation</h3>
+            <h3 className="font-medium mb-4">{t.navigation}</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/#about" className="text-sm hover:text-primary transition-colors">
-                  About
+                  {language === "en" ? "About" : "Sobre mí"}
                 </Link>
               </li>
               <li>
                 <Link href="/#projects" className="text-sm hover:text-primary transition-colors">
-                  Projects
+                  {language === "en" ? "Projects" : "Proyectos"}
                 </Link>
               </li>
               <li>
                 <Link href="/#skills" className="text-sm hover:text-primary transition-colors">
-                  Skills
+                  {language === "en" ? "Skills" : "Habilidades"}
                 </Link>
               </li>
               <li>
                 <Link href="/#contact" className="text-sm hover:text-primary transition-colors">
-                  Contact
+                  {t.contact}
                 </Link>
               </li>
             </ul>
@@ -50,7 +83,7 @@ export default function Footer() {
 
           {/* Column 3: Contact */}
           <div className="md:col-span-1">
-            <h3 className="font-medium mb-4">Contact</h3>
+            <h3 className="font-medium mb-4">{t.contact}</h3>
             <ul className="space-y-3">
               <li>
                 <a
@@ -71,10 +104,10 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/matteo-daniele-cv.pdf" download>
+                <a href={cvPath} download>
                 <Button variant="outline" size="sm" className="gap-1 hidden sm:flex">
                     <Download className="h-4 w-4" />
-                    <span>Download CV</span>
+                    <span>{t.downloadCV}</span>
                 </Button>
                 </a>
               </li>
@@ -83,7 +116,7 @@ export default function Footer() {
 
           {/* Column 4: Social */}
           <div className="md:col-span-1">
-            <h3 className="font-medium mb-4">Connect</h3>
+            <h3 className="font-medium mb-4">{t.connect}</h3>
             <div className="flex flex-col space-y-3">
               <a
                 href="https://github.com/Matteo-Daniele"
@@ -130,15 +163,15 @@ export default function Footer() {
         {/* Bottom section with copyright */}
         <div className="mt-12 pt-6 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Matteo Daniele. All rights reserved.
+            © {new Date().getFullYear()} Matteo Daniele. {t.allRightsReserved}
           </p>
 
           <div className="flex items-center gap-4">
             <div className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Privacy Policy
+              {t.privacyPolicy}
             </div>
             <div className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Terms of Service
+              {t.termsOfService}
             </div>
           </div>
         </div>

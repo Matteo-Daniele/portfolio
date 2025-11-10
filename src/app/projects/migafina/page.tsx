@@ -8,8 +8,95 @@ import { motion } from "framer-motion"
 import { ArrowLeft, ArrowRight, ExternalLink, Github } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useLanguage } from "@/components/language-provider"
 
 export default function MigafinaProjectPage() {
+  const { language } = useLanguage()
+  
+  const translations = {
+    en: {
+      backToProjects: "Back to projects",
+      webDevelopment: "Web Development",
+      subtitle: "Bakery website with responsive design",
+      projectOverview: "Project Overview",
+      overviewText: "Migafina.uy is a responsive website developed for a bakery in Uruguay. The application provides comprehensive information about the bakery, including their social media presence, product offerings, and physical locations. The website is fully responsive, ensuring a seamless experience across both mobile and desktop devices.",
+      developmentProcess: "Development Process",
+      processIntro: "The development process for Migafina involved several key phases:",
+      process1: "Initial client consultation to understand the bakery's brand identity and requirements",
+      process2: "Design phase with wireframing and mockups for both mobile and desktop layouts",
+      process3: "Development using Next.js to create a fast, responsive website",
+      process4: "Implementation of responsive design principles to ensure optimal viewing on all devices",
+      process5: "Content integration including product information and location details",
+      process6: "Testing across multiple devices and browsers",
+      process7: "Deployment and client training",
+      keyFeatures: "Key Features",
+      responsiveDesign: "Responsive Design",
+      responsiveDesc: "Optimized for both mobile and desktop viewing experiences",
+      productShowcase: "Product Showcase",
+      productDesc: "Beautiful display of bakery products with descriptions",
+      locationInfo: "Location Information",
+      locationDesc: "Details about physical store locations",
+      socialMedia: "Social Media Integration",
+      socialDesc: "Links to the bakery's social media profiles for increased engagement",
+      challenges: "Challenges & Solutions",
+      challenge1: "Challenge: Maintaining visual appeal across devices",
+      challenge1Text: "Ensuring the bakery's products looked appetizing on both small mobile screens and large desktop displays.",
+      solution: "Solution:",
+      solution1Text: "Implemented responsive image techniques and art-directed different image crops for various screen sizes to maintain visual impact regardless of device.",
+      projectDetails: "Project Details",
+      client: "Client",
+      timeline: "Timeline",
+      role: "My Role",
+      website: "Website",
+      technologiesUsed: "Technologies Used",
+      links: "Links",
+      viewSource: "View Source Code",
+      visitLive: "Visit Live Site",
+      nextProject: "Next Project: Rent a Car",
+    },
+    es: {
+      backToProjects: "Volver a proyectos",
+      webDevelopment: "Desarrollo Web",
+      subtitle: "Sitio web de panadería con diseño responsivo",
+      projectOverview: "Resumen del Proyecto",
+      overviewText: "Migafina.uy es un sitio web responsivo desarrollado para una panadería en Uruguay. La aplicación proporciona información completa sobre la panadería, incluyendo su presencia en redes sociales, ofertas de productos y ubicaciones físicas. El sitio web es completamente responsivo, garantizando una experiencia fluida tanto en dispositivos móviles como de escritorio.",
+      developmentProcess: "Proceso de Desarrollo",
+      processIntro: "El proceso de desarrollo para Migafina involucró varias fases clave:",
+      process1: "Consulta inicial con el cliente para entender la identidad de marca de la panadería y los requisitos",
+      process2: "Fase de diseño con wireframes y maquetas para diseños móviles y de escritorio",
+      process3: "Desarrollo usando Next.js para crear un sitio web rápido y responsivo",
+      process4: "Implementación de principios de diseño responsivo para garantizar una visualización óptima en todos los dispositivos",
+      process5: "Integración de contenido incluyendo información de productos y detalles de ubicación",
+      process6: "Pruebas en múltiples dispositivos y navegadores",
+      process7: "Despliegue y capacitación del cliente",
+      keyFeatures: "Características Clave",
+      responsiveDesign: "Diseño Responsivo",
+      responsiveDesc: "Optimizado para experiencias de visualización tanto móviles como de escritorio",
+      productShowcase: "Exhibición de Productos",
+      productDesc: "Hermosa exhibición de productos de panadería con descripciones",
+      locationInfo: "Información de Ubicación",
+      locationDesc: "Detalles sobre las ubicaciones físicas de las tiendas",
+      socialMedia: "Integración de Redes Sociales",
+      socialDesc: "Enlaces a los perfiles de redes sociales de la panadería para mayor participación",
+      challenges: "Desafíos y Soluciones",
+      challenge1: "Desafío: Mantener el atractivo visual en todos los dispositivos",
+      challenge1Text: "Asegurar que los productos de la panadería se vieran apetitosos tanto en pantallas móviles pequeñas como en pantallas de escritorio grandes.",
+      solution: "Solución:",
+      solution1Text: "Se implementaron técnicas de imágenes responsivas y recortes de imágenes dirigidos artísticamente para varios tamaños de pantalla para mantener el impacto visual independientemente del dispositivo.",
+      projectDetails: "Detalles del Proyecto",
+      client: "Cliente",
+      timeline: "Cronograma",
+      role: "Mi Rol",
+      website: "Sitio Web",
+      technologiesUsed: "Tecnologías Utilizadas",
+      links: "Enlaces",
+      viewSource: "Ver Código Fuente",
+      visitLive: "Visitar Sitio en Vivo",
+      nextProject: "Siguiente Proyecto: Rent a Car",
+    },
+  }
+  
+  const t = translations[language]
   return (
     <>
       <Navbar />
@@ -21,16 +108,16 @@ export default function MigafinaProjectPage() {
             className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to projects
+            {t.backToProjects}
           </Link>
 
           {/* Project header */}
           <div className="flex flex-col gap-4 mb-12">
             <Badge className="w-fit" variant="outline">
-              Web Development
+              {t.webDevelopment}
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold">Migafina</h1>
-            <p className="text-xl text-muted-foreground">Bakery website with responsive design</p>
+            <p className="text-xl text-muted-foreground">{t.subtitle}</p>
           </div>
 
           {/* Project images showcase */}
@@ -92,76 +179,71 @@ export default function MigafinaProjectPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
             <div className="md:col-span-2 space-y-8">
               <section>
-                <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.projectOverview}</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Migafina.uy is a responsive website developed for a bakery in Uruguay. The application provides
-                  comprehensive information about the bakery, including their social media presence, product offerings,
-                  and physical locations. The website is fully responsive, ensuring a seamless experience across both
-                  mobile and desktop devices.
+                  {t.overviewText}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-bold mb-4">Development Process</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.developmentProcess}</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  The development process for Migafina involved several key phases:
+                  {t.processIntro}
                 </p>
                 <ol className="list-decimal pl-5 space-y-2 text-muted-foreground">
-                  <li>Initial client consultation to understand the bakery's brand identity and requirements</li>
-                  <li>Design phase with wireframing and mockups for both mobile and desktop layouts</li>
-                  <li>Development using Next.js to create a fast, responsive website</li>
-                  <li>Implementation of responsive design principles to ensure optimal viewing on all devices</li>
-                  <li>Content integration including product information and location details</li>
-                  <li>Testing across multiple devices and browsers</li>
-                  <li>Deployment and client training</li>
+                  <li>{t.process1}</li>
+                  <li>{t.process2}</li>
+                  <li>{t.process3}</li>
+                  <li>{t.process4}</li>
+                  <li>{t.process5}</li>
+                  <li>{t.process6}</li>
+                  <li>{t.process7}</li>
                 </ol>
               </section>
 
               <section>
-                <h2 className="text-2xl font-bold mb-4">Key Features</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.keyFeatures}</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Responsive Design</h3>
+                    <h3 className="font-medium mb-2">{t.responsiveDesign}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Optimized for both mobile and desktop viewing experiences
+                      {t.responsiveDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Product Showcase</h3>
+                    <h3 className="font-medium mb-2">{t.productShowcase}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Beautiful display of bakery products with descriptions
+                      {t.productDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Location Information</h3>
+                    <h3 className="font-medium mb-2">{t.locationInfo}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Details about physical store locations
+                      {t.locationDesc}
                     </p>
                   </li>
                   <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
-                    <h3 className="font-medium mb-2">Social Media Integration</h3>
+                    <h3 className="font-medium mb-2">{t.socialMedia}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Links to the bakery's social media profiles for increased engagement
+                      {t.socialDesc}
                     </p>
                   </li>
                 </ul>
               </section>
 
               <section>
-                <h2 className="text-2xl font-bold mb-4">Challenges & Solutions</h2>
+                <h2 className="text-2xl font-bold mb-4">{t.challenges}</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-medium">Challenge: Maintaining visual appeal across devices</h3>
+                    <h3 className="font-medium">{t.challenge1}</h3>
                     <p className="text-muted-foreground">
-                      Ensuring the bakery's products looked appetizing on both small mobile screens and large desktop
-                      displays.
+                      {t.challenge1Text}
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-medium">Solution:</h3>
+                    <h3 className="font-medium">{t.solution}</h3>
                     <p className="text-muted-foreground">
-                      Implemented responsive image techniques and art-directed different image crops for various screen
-                      sizes to maintain visual impact regardless of device.
+                      {t.solution1Text}
                     </p>
                   </div>
                 </div>
@@ -170,22 +252,22 @@ export default function MigafinaProjectPage() {
 
             <div className="space-y-8">
               <section className="bg-muted/30 p-6 rounded-xl backdrop-blur-sm">
-                <h2 className="text-xl font-bold mb-4">Project Details</h2>
+                <h2 className="text-xl font-bold mb-4">{t.projectDetails}</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">Client</h3>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.client}</h3>
                     <p>Migafina Bakery</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">Timeline</h3>
-                    <p>4 weeks</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.timeline}</h3>
+                    <p>{language === "en" ? "4 weeks" : "4 semanas"}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">My Role</h3>
-                    <p>Full-stack Developer</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.role}</h3>
+                    <p>{language === "en" ? "Full-stack Developer" : "Desarrollador Full-stack"}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-muted-foreground">Website</h3>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.website}</h3>
                     <a
                       href="https://migafina.uy"
                       target="_blank"
@@ -200,7 +282,7 @@ export default function MigafinaProjectPage() {
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4">Technologies Used</h2>
+                <h2 className="text-xl font-bold mb-4">{t.technologiesUsed}</h2>
                 <div className="flex flex-wrap gap-2">
                   <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Next.js</Badge>
                   <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">React</Badge>
@@ -212,7 +294,7 @@ export default function MigafinaProjectPage() {
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4">Links</h2>
+                <h2 className="text-xl font-bold mb-4">{t.links}</h2>
                 <div className="space-y-3">
                   <Button
                     asChild
@@ -221,7 +303,7 @@ export default function MigafinaProjectPage() {
                   >
                     <a href="https://github.com/Matteo-Daniele" target="_blank" rel="noopener noreferrer">
                       <Github className="mr-2 h-4 w-4" />
-                      View Source Code
+                      {t.viewSource}
                     </a>
                   </Button>
                   <Button
@@ -230,7 +312,7 @@ export default function MigafinaProjectPage() {
                   >
                     <a href="https://migafina.uy" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-4 w-4" />
-                      Visit Live Site
+                      {t.visitLive}
                     </a>
                   </Button>
                 </div>
@@ -246,7 +328,7 @@ export default function MigafinaProjectPage() {
                 href="/projects/rentacar"
                 className="group inline-flex items-center text-primary font-medium hover:underline"
               >
-                Next Project: Rent a Car
+                {t.nextProject}
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
