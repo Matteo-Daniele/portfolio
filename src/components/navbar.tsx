@@ -1,6 +1,6 @@
 "use client"
 
-import { Download, Languages, Moon, Sun } from "lucide-react"
+import { Languages, Moon, Sun } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -12,28 +12,23 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme()
   const { language, setLanguage } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
-  
+
   const translations = {
     en: {
       about: "About",
       projects: "Projects",
       skills: "Skills",
       contact: "Contact",
-      downloadCV: "Download CV",
     },
     es: {
       about: "Sobre mí",
       projects: "Proyectos",
       skills: "Habilidades",
       contact: "Contacto",
-      downloadCV: "Descargar CV",
     },
   }
-  
+
   const t = translations[language]
-  const cvPath = language === "en" 
-    ? "/Matteo-Daniele-Resume-English.pdf" 
-    : "/Matteo-Daniele-CV-Español (1).pdf"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,72 +40,60 @@ export default function Navbar() {
   }, [])
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center p-4">
+    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-4 pt-4">
       <nav
-        className={`w-full max-w-5xl flex items-center justify-between rounded-full px-4 py-2 transition-all duration-300 ${
-          scrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-background/50 backdrop-blur-sm"
+        className={`w-full max-w-4xl flex items-center justify-between rounded-full px-5 py-2.5 transition-all duration-500 ${
+          scrolled
+            ? "bg-background/70 backdrop-blur-xl shadow-lg shadow-black/[0.03] border border-border/50 dark:shadow-black/20"
+            : "bg-transparent"
         }`}
       >
-        {/* Left: Profile pic + name */}
-        <div className="flex items-center gap-2">
-          <div className="relative h-10 w-10 overflow-hidden rounded-full border border-border">
-            <Link href="/">
-            <Image src="/Logo.png" alt="Matte Daniele" fill className="object-cover" />
-            </Link>
-          </div>
-          <span className="font-medium">Matteo Daniele</span>
+        {/* Left: Logo + name */}
+        <div className="flex items-center gap-2.5">
+          <Link href="/" className="relative block h-9 w-9 overflow-hidden rounded-full border border-border/60 hover:border-primary/40 transition-colors duration-300">
+            <Image src="/Logo.png" alt="Matteo Daniele" fill sizes="36px" className="object-cover" />
+          </Link>
+          <span className="font-display font-semibold text-sm tracking-tight hidden sm:block">Matteo Daniele</span>
         </div>
 
         {/* Middle: Navigation links */}
-        <div className="hidden md:flex items-center gap-6">
-          <Link href="/#about" className="text-sm hover:text-primary transition-colors">
-            {t.about}
-          </Link>
-          <Link href="/#projects" className="text-sm hover:text-primary transition-colors">
-            {t.projects}
-          </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setLanguage(language === "en" ? "es" : "en")}
-            aria-label="Toggle language"
-            className="h-8 w-8"
-          >
-            <Languages className="h-[1.2rem] w-[1.2rem]" />
-          </Button>
-          <Link href="/#skills" className="text-sm hover:text-primary transition-colors">
-            {t.skills}
-          </Link>
-          <Link href="/#contact" className="text-sm hover:text-primary transition-colors">
-            {t.contact}
-          </Link>
+        <div className="hidden md:flex items-center gap-1">
+          {[
+            { href: "/#about", label: t.about },
+            { href: "/#projects", label: t.projects },
+            { href: "/#skills", label: t.skills },
+            { href: "/#contact", label: t.contact },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm px-3.5 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/5 transition-all duration-300"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
 
-        {/* Right: CTA and theme toggle */}
-        <div className="flex items-center gap-2">
-          <a href={cvPath} download>
-          <Button variant="outline" size="sm" className="gap-1 hidden sm:flex">
-            <Download className="h-4 w-4" />
-            <span>{t.downloadCV}</span>
-          </Button>
-          </a>
+        {/* Right: Controls */}
+        <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setLanguage(language === "en" ? "es" : "en")}
             aria-label="Toggle language"
-            className="md:hidden h-8 w-8"
+            className="h-8 w-8 rounded-full text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-primary/5"
           >
-            <Languages className="h-[1.2rem] w-[1.2rem]" />
+            {language === "en" ? "EN" : "ES"}
           </Button>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             aria-label="Toggle theme"
+            className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/5"
           >
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </Button>
         </div>
       </nav>

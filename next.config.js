@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  images: {
+    qualities: [75, 90], // Aquí defines los valores permitidos
+  },
 }
 
 module.exports = nextConfig
