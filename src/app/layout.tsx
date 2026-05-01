@@ -1,21 +1,19 @@
 import type { Metadata } from "next"
-import { Inter, Outfit } from "next/font/google"
+import { Inter } from "next/font/google"
 import type React from "react"
 import { LanguageProvider } from "../components/language-provider"
 import { ThemeProvider } from "../components/theme-provider"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" })
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://matteda.vercel.app/"),
   title: "Matteo Daniele portfolio",
   description: "Personal portfolio of Matte Daniele, Full-Stack Developer",
   openGraph: {
     title: "Matteo Daniele portfolio",
     description: "Personal portfolio of Matte Daniele, Full-Stack Developer",
-    url: "https://matteda.vercel.app/",
+    url: "https://matteodaniele.vercel.app",
     siteName: "Matteo Daniele",
     images: [
       {
@@ -50,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.variable} ${outfit.variable} font-sans`} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
@@ -58,3 +56,4 @@ export default function RootLayout({
     </html>
   )
 }
+

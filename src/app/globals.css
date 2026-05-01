@@ -4,73 +4,68 @@
 
 @layer base {
   :root {
-    --background: 40 33% 97%;
-    --foreground: 25 20% 10%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 36 30% 96%;
-    --card-foreground: 25 20% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 40 33% 97%;
-    --popover-foreground: 25 20% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 28 92% 55%;
-    --primary-foreground: 40 33% 97%;
+    --primary: 175 70% 41%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 35 30% 92%;
-    --secondary-foreground: 25 20% 15%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 35 25% 93%;
-    --muted-foreground: 25 10% 45%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 35 30% 92%;
-    --accent-foreground: 25 20% 15%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 40 33% 97%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 35 20% 88%;
-    --input: 35 20% 88%;
-    --ring: 28 92% 55%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 175 70% 41%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --warm-cream: #FAF8F5;
-    --warm-card: #F5F0EA;
-    --warm-amber: #F59E0B;
-    --warm-orange: #EA7B30;
-    --warm-peach: #FBBF78;
-    --warm-rose: #F4A3A0;
-    --warm-charcoal: #1C1917;
+    --light-bg: #f8f8f8;
+    --dark-bg: #1c1c1c;
   }
 
   .dark {
-    --background: 25 15% 8%;
-    --foreground: 35 20% 92%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --card: 25 12% 12%;
-    --card-foreground: 35 20% 92%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 25 15% 8%;
-    --popover-foreground: 35 20% 92%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 28 92% 55%;
-    --primary-foreground: 25 15% 8%;
+    --primary: 175 70% 41%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 25 12% 16%;
-    --secondary-foreground: 35 20% 92%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 25 12% 16%;
-    --muted-foreground: 30 10% 55%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 25 12% 16%;
-    --accent-foreground: 35 20% 92%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 35 20% 92%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 25 12% 18%;
-    --input: 25 12% 18%;
-    --ring: 28 80% 45%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 175 76% 29%;
   }
 
   * {
@@ -80,52 +75,8 @@
     @apply bg-background text-foreground;
   }
 
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
-  }
-
   /* Fix for the text carousel gradient mask in dark mode */
   .dark [data-dark-style] {
-    --background-color: var(--warm-charcoal) !important;
-  }
-}
-
-/* Warm gradient utility classes */
-@layer utilities {
-  .gradient-warm {
-    background: linear-gradient(135deg, #F59E0B 0%, #EA7B30 50%, #F4A3A0 100%);
-  }
-  .gradient-warm-text {
-    background: linear-gradient(135deg, #F59E0B 0%, #EA7B30 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .gradient-warm-subtle {
-    background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(234,123,48,0.04) 50%, transparent 100%);
-  }
-  .glass-warm {
-    background: rgba(250, 248, 245, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-  .dark .glass-warm {
-    background: rgba(28, 25, 23, 0.7);
+    --background-color: var(--dark-bg, #1c1c1c) !important;
   }
 }

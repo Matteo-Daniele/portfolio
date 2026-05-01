@@ -170,52 +170,32 @@ export default function RentacarProjectPage() {
     intervalRef.current = setInterval(goToNext, 5000)
   }
 
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
-    }),
-  }
-
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-32 pb-20">
+      <main className="min-h-screen pt-32 pb-20 bg-gradient-to-b from-background to-background/95">
         <div className="container px-4 md:px-6 mx-auto">
           {/* Back button */}
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
+          <Link
+            href="/#projects"
+            className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8"
           >
-            <Link
-              href="/#projects"
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors duration-300 mb-8"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              {t.backToProjects}
-            </Link>
-          </motion.div>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            {t.backToProjects}
+          </Link>
 
           {/* Project header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col gap-4 mb-12"
-          >
-            <Badge className="w-fit rounded-full bg-primary/10 text-primary border-primary/20 hover:bg-primary/15" variant="outline">
+          <div className="flex flex-col gap-4 mb-12">
+            <Badge className="w-fit" variant="outline">
               {t.webApplication}
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-display font-bold">Rent a Car</h1>
+            <h1 className="text-4xl md:text-5xl font-bold">Rent a Car</h1>
             <p className="text-xl text-muted-foreground">{t.subtitle}</p>
-          </motion.div>
+          </div>
 
           {/* Project images showcase */}
           <motion.div
-            className="mb-12 md:mb-16 bg-card/60 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-border/30"
+            className="mb-12 md:mb-16 bg-muted/30 p-4 sm:p-6 rounded-2xl backdrop-blur-sm"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -223,13 +203,13 @@ export default function RentacarProjectPage() {
             <div className="relative max-w-4xl mx-auto">
               {/* Desktop images with custom carousel */}
               <motion.div
-                className="rounded-2xl overflow-hidden shadow-sm p-2 sm:p-4 backdrop-blur-md border border-border/20"
+                className="rounded-2xl overflow-hidden shadow-md p-2 sm:p-4 backdrop-blur-md border-0"
                 initial={{ scale: 0.98 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                whileHover={{ boxShadow: "0 10px 40px -10px rgba(245, 158, 11, 0.08)" }}
+                whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02)" }}
               >
-                <div className="relative w-full overflow-hidden rounded-xl">
+                <div className="relative w-full overflow-hidden rounded-lg">
                   <AnimatePresence initial={false} mode="wait">
                     <motion.div
                       key={currentIndex}
@@ -243,7 +223,7 @@ export default function RentacarProjectPage() {
                         src={projectImages[currentIndex].src || "/placeholder.svg"}
                         alt={projectImages[currentIndex].alt}
                         fill
-                        className="object-contain rounded-xl"
+                        className="object-contain rounded-lg"
                         priority
                       />
                     </motion.div>
@@ -252,7 +232,7 @@ export default function RentacarProjectPage() {
                   {/* Navigation buttons */}
                   <button
                     onClick={() => handleManualNavigation("prev")}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-2 text-primary shadow-md backdrop-blur-sm z-10 opacity-70 hover:opacity-100 transition-all duration-300 hover:bg-primary/10 border border-border/30"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/50 rounded-full p-1.5 text-primary shadow-md backdrop-blur-sm z-10 opacity-70 hover:opacity-100 transition-opacity"
                     aria-label="Previous image"
                     disabled={isAnimating}
                   >
@@ -260,7 +240,7 @@ export default function RentacarProjectPage() {
                   </button>
                   <button
                     onClick={() => handleManualNavigation("next")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-background/80 rounded-full p-2 text-primary shadow-md backdrop-blur-sm z-10 opacity-70 hover:opacity-100 transition-all duration-300 hover:bg-primary/10 border border-border/30"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/50 rounded-full p-1.5 text-primary shadow-md backdrop-blur-sm z-10 opacity-70 hover:opacity-100 transition-opacity"
                     aria-label="Next image"
                     disabled={isAnimating}
                   >
@@ -268,7 +248,7 @@ export default function RentacarProjectPage() {
                   </button>
 
                   {/* Dots indicator */}
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1.5 z-10">
                     {projectImages.map((_, index) => (
                       <button
                         key={index}
@@ -277,10 +257,10 @@ export default function RentacarProjectPage() {
                           setCurrentIndex(index)
                           intervalRef.current = setInterval(goToNext, 5000)
                         }}
-                        className={`h-2 rounded-full transition-all duration-300 ${
+                        className={`w-2 h-2 rounded-full transition-all ${
                           currentIndex === index
-                            ? "bg-primary w-6"
-                            : "bg-muted-foreground/30 w-2 hover:bg-muted-foreground/50"
+                            ? "bg-primary w-4"
+                            : "bg-white/50 dark:bg-gray-600/50 hover:bg-white/80 dark:hover:bg-gray-600/80"
                         }`}
                         aria-label={`Go to image ${index + 1}`}
                       />
@@ -293,20 +273,28 @@ export default function RentacarProjectPage() {
 
           {/* Project details */}
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
-            <div className="md:col-span-2 space-y-10">
-              <motion.section custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.projectOverview}</h2>
+            <div className="md:col-span-2 space-y-8">
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <h2 className="text-2xl font-bold mb-4">{t.projectOverview}</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {t.overviewText}
                 </p>
               </motion.section>
 
-              <motion.section custom={1} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.developmentProcess}</h2>
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <h2 className="text-2xl font-bold mb-4">{t.developmentProcess}</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   {t.processIntro}
                 </p>
-                <ol className="list-decimal pl-5 space-y-2.5 text-muted-foreground">
+                <ol className="list-decimal pl-5 space-y-2 text-muted-foreground">
                   <li>{t.process1}</li>
                   <li>{t.process2}</li>
                   <li>{t.process3}</li>
@@ -319,51 +307,80 @@ export default function RentacarProjectPage() {
                 </ol>
               </motion.section>
 
-              <motion.section custom={2} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.keyFeatures}</h2>
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <h2 className="text-2xl font-bold mb-4">{t.keyFeatures}</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {[
-                    { title: t.userAuth, desc: t.userAuthDesc },
-                    { title: t.advancedFiltering, desc: t.advancedFilteringDesc },
-                    { title: t.reservationManagement, desc: t.reservationManagementDesc },
-                    { title: t.vehicleManagement, desc: t.vehicleManagementDesc },
-                    { title: t.branchManagement, desc: t.branchManagementDesc },
-                    { title: t.responsiveDesign, desc: t.responsiveDesignDesc },
-                  ].map((feature, i) => (
-                    <li key={i} className="bg-card/80 backdrop-blur-sm p-5 rounded-2xl border border-border/30 hover:border-primary/20 transition-colors duration-300">
-                      <h3 className="font-display font-medium mb-2">{feature.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {feature.desc}
-                      </p>
-                    </li>
-                  ))}
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.userAuth}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t.userAuthDesc}
+                    </p>
+                  </li>
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.advancedFiltering}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t.advancedFilteringDesc}
+                    </p>
+                  </li>
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.reservationManagement}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t.reservationManagementDesc}
+                    </p>
+                  </li>
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.vehicleManagement}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t.vehicleManagementDesc}
+                    </p>
+                  </li>
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.branchManagement}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t.branchManagementDesc}
+                    </p>
+                  </li>
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.responsiveDesign}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t.responsiveDesignDesc}
+                    </p>
+                  </li>
                 </ul>
               </motion.section>
 
-              <motion.section custom={3} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.challenges}</h2>
-                <div className="space-y-5">
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <h2 className="text-2xl font-bold mb-4">{t.challenges}</h2>
+                <div className="space-y-4">
                   <div>
-                    <h3 className="font-display font-medium">{t.challenge1}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <h3 className="font-medium">{t.challenge1}</h3>
+                    <p className="text-muted-foreground">
                       {t.challenge1Text}
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-display font-medium">{t.solution1}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <h3 className="font-medium">{t.solution1}</h3>
+                    <p className="text-muted-foreground">
                       {t.solution1Text}
                     </p>
                   </div>
                   <div className="mt-4">
-                    <h3 className="font-display font-medium">{t.challenge2}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <h3 className="font-medium">{t.challenge2}</h3>
+                    <p className="text-muted-foreground">
                       {t.challenge2Text}
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-display font-medium">{t.solution2}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <h3 className="font-medium">{t.solution2}</h3>
+                    <p className="text-muted-foreground">
                       {t.solution2Text}
                     </p>
                   </div>
@@ -373,28 +390,28 @@ export default function RentacarProjectPage() {
 
             <div className="space-y-8">
               <motion.section
-                className="bg-card/80 backdrop-blur-sm p-6 rounded-2xl border border-border/30"
+                className="bg-muted/30 p-6 rounded-xl backdrop-blur-sm"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <h2 className="text-lg font-display font-bold mb-4">{t.projectDetails}</h2>
+                <h2 className="text-xl font-bold mb-4">{t.projectDetails}</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.client}</h3>
-                    <p className="mt-1">Martinez Rent a Car</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.client}</h3>
+                    <p>Martinez Rent a Car</p>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.timeline}</h3>
-                    <p className="mt-1">{language === "en" ? "3 months" : "3 meses"}</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.timeline}</h3>
+                    <p>{language === "en" ? "3 months" : "3 meses"}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.role}</h3>
-                    <p className="mt-1">{language === "en" ? "Full-stack Developer" : "Desarrollador Full-stack"}</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.role}</h3>
+                    <p>{language === "en" ? "Full-stack Developer" : "Desarrollador Full-stack"}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.teamSize}</h3>
-                    <p className="mt-1">{language === "en" ? "3 members" : "3 miembros"}</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.teamSize}</h3>
+                    <p>{language === "en" ? "3 members" : "3 miembros"}</p>
                   </div>
                 </div>
               </motion.section>
@@ -404,13 +421,16 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
-                <h2 className="text-lg font-display font-bold mb-4">{t.technologiesUsed}</h2>
+                <h2 className="text-xl font-bold mb-4">{t.technologiesUsed}</h2>
                 <div className="flex flex-wrap gap-2">
-                  {["React.js", "Tailwind CSS", "Node.js", "MongoDB", "Docker", "Cloudinary", "Express", "JWT Authentication"].map((tech) => (
-                    <Badge key={tech} className="bg-primary/8 hover:bg-primary/15 border-0 text-muted-foreground rounded-full transition-colors duration-300">
-                      {tech}
-                    </Badge>
-                  ))}
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">React.js</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Tailwind CSS</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Node.js</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">MongoDB</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Docker</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Cloudinary</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Express</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">JWT Authentication</Badge>
                 </div>
               </motion.section>
 
@@ -419,12 +439,12 @@ export default function RentacarProjectPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 }}
               >
-                <h2 className="text-lg font-display font-bold mb-4">{t.links}</h2>
+                <h2 className="text-xl font-bold mb-4">{t.links}</h2>
                 <div className="space-y-3">
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full justify-start rounded-xl border-border/40 hover:border-primary/20 hover:bg-primary/5 transition-all duration-300"
+                    className="w-full justify-start border-0 bg-muted/20 hover:bg-muted/40"
                   >
                     <a href="https://github.com/Matteo-Daniele" target="_blank" rel="noopener noreferrer">
                       <Github className="mr-2 h-4 w-4" />
@@ -433,7 +453,7 @@ export default function RentacarProjectPage() {
                   </Button>
                   <Button
                     asChild
-                    className="w-full justify-start rounded-xl bg-gradient-to-r from-primary/15 to-[#EA7B30]/10 hover:from-primary/25 hover:to-[#EA7B30]/15 text-primary border-0 transition-all duration-300"
+                    className="w-full justify-start bg-primary/10 hover:bg-primary/20 text-primary border-0"
                   >
                     <a href="/" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-4 w-4" />
@@ -449,24 +469,23 @@ export default function RentacarProjectPage() {
           <motion.div
             className="mt-20 pt-8 border-t border-border/20"
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
           >
             <div className="flex justify-between items-center">
               <Link
                 href="/projects/migafina"
-                className="group inline-flex items-center text-primary font-display font-medium hover:underline"
+                className="group inline-flex items-center text-primary font-medium hover:underline"
               >
-                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1 duration-300" />
+                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 {t.previousProject}
               </Link>
               <Link
                 href="/#projects"
-                className="group inline-flex items-center text-primary font-display font-medium hover:underline"
+                className="group inline-flex items-center text-primary font-medium hover:underline"
               >
                 {t.backToAllProjects}
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 duration-300" />
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </motion.div>
