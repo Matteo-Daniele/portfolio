@@ -25,15 +25,15 @@ export default function BlobCanvas() {
 
   // Initialize blobs
   useEffect(() => {
-    // Warm color palette — ambers, peaches, soft rose
+    // Create an array of colors with varying opacity and hue
     const colors = [
-      "hsla(28, 90%, 55%, 0.35)",    // Warm amber
-      "hsla(35, 85%, 60%, 0.30)",    // Golden
-      "hsla(20, 80%, 50%, 0.25)",    // Deep orange
-      "hsla(15, 75%, 55%, 0.20)",    // Burnt sienna
-      "hsla(40, 90%, 65%, 0.30)",    // Light gold
-      "hsla(10, 70%, 60%, 0.25)",    // Soft rose
-      "hsla(30, 95%, 50%, 0.35)",    // Rich amber
+      "hsla(175, 70%, 41%, 0.4)", // Primary color with opacity
+      "hsla(185, 70%, 35%, 0.35)", // Slightly different hue
+      "hsla(165, 70%, 45%, 0.3)", // Another variation
+      "hsla(170, 75%, 40%, 0.25)", // Fourth variation
+      "hsla(180, 65%, 38%, 0.35)", // Fifth variation
+      "hsla(160, 60%, 42%, 0.3)", // Sixth variation
+      "hsla(175, 80%, 36%, 0.4)", // Seventh variation
     ]
 
     // Set initial dimensions

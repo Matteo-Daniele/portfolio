@@ -12,7 +12,7 @@ import { useLanguage } from "@/components/language-provider"
 
 export default function MigafinaProjectPage() {
   const { language } = useLanguage()
-
+  
   const translations = {
     en: {
       backToProjects: "Back to projects",
@@ -95,55 +95,34 @@ export default function MigafinaProjectPage() {
       nextProject: "Siguiente Proyecto: Rent a Car",
     },
   }
-
+  
   const t = translations[language]
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
-    }),
-  }
-
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-32 pb-20">
+      <main className="min-h-screen pt-32 pb-20 bg-gradient-to-b from-background to-background/95">
         <div className="container px-4 md:px-6 mx-auto">
           {/* Back button */}
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
+          <Link
+            href="/#projects"
+            className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8"
           >
-            <Link
-              href="/#projects"
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors duration-300 mb-8"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              {t.backToProjects}
-            </Link>
-          </motion.div>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            {t.backToProjects}
+          </Link>
 
           {/* Project header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col gap-4 mb-12"
-          >
-            <Badge className="w-fit rounded-full bg-primary/10 text-primary border-primary/20 hover:bg-primary/15" variant="outline">
+          <div className="flex flex-col gap-4 mb-12">
+            <Badge className="w-fit" variant="outline">
               {t.webDevelopment}
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-display font-bold">Migafina</h1>
+            <h1 className="text-4xl md:text-5xl font-bold">Migafina</h1>
             <p className="text-xl text-muted-foreground">{t.subtitle}</p>
-          </motion.div>
+          </div>
 
           {/* Project images showcase */}
           <motion.div
-            className="mb-12 md:mb-16 bg-card/60 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-border/30"
+            className="mb-12 md:mb-16 bg-muted/30 p-4 sm:p-6 rounded-2xl backdrop-blur-sm"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -151,14 +130,14 @@ export default function MigafinaProjectPage() {
             <div className="relative max-w-4xl mx-auto">
               {/* Desktop image (background) */}
               <motion.div
-                className="bg-card/80 rounded-2xl overflow-hidden shadow-sm p-2 sm:p-4 backdrop-blur-md border border-border/20"
+                className="bg-white/70 dark:bg-[#252525]/70 rounded-2xl overflow-hidden shadow-sm p-2 sm:p-4 backdrop-blur-md border-0"
                 initial={{ scale: 0.98 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                whileHover={{ boxShadow: "0 10px 40px -10px rgba(245, 158, 11, 0.08)" }}
+                whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02)" }}
               >
                 <motion.div
-                  className="relative aspect-[16/9] w-full overflow-hidden rounded-xl"
+                  className="relative aspect-[16/9] w-full overflow-hidden rounded-lg"
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -166,8 +145,7 @@ export default function MigafinaProjectPage() {
                     src="/images/migafina-desktop.png"
                     alt="Migafina desktop view"
                     fill
-                    sizes="(max-width: 768px) 100vw, 800px"
-                    className="object-contain rounded-xl transition-transform duration-700 hover:scale-105"
+                    className="object-contain rounded-lg transition-transform duration-700 hover:scale-105"
                     priority
                   />
                 </motion.div>
@@ -181,14 +159,13 @@ export default function MigafinaProjectPage() {
                 transition={{ duration: 0.5, delay: 0.5 }}
                 whileHover={{ y: -5, rotate: -2, transition: { duration: 0.2 } }}
               >
-                <div className="bg-card/80 rounded-2xl overflow-hidden shadow-lg p-1 sm:p-2 backdrop-blur-md border border-border/20">
-                  <div className="relative aspect-[9/16] w-full overflow-hidden rounded-xl">
+                <div className="bg-white/70 dark:bg-[#252525]/70 rounded-2xl overflow-hidden shadow-sm p-1 sm:p-2 backdrop-blur-md border-0">
+                  <div className="relative aspect-[9/16] w-full overflow-hidden rounded-lg">
                     <Image
                       src="/images/migafina-mobile.png"
                       alt="Migafina mobile view"
                       fill
-                      sizes="(max-width: 768px) 30vw, 220px"
-                      className="object-contain rounded-xl"
+                      className="object-contain rounded-lg"
                       priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
@@ -200,20 +177,20 @@ export default function MigafinaProjectPage() {
 
           {/* Project details */}
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
-            <div className="md:col-span-2 space-y-10">
-              <motion.section custom={0} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.projectOverview}</h2>
+            <div className="md:col-span-2 space-y-8">
+              <section>
+                <h2 className="text-2xl font-bold mb-4">{t.projectOverview}</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {t.overviewText}
                 </p>
-              </motion.section>
+              </section>
 
-              <motion.section custom={1} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.developmentProcess}</h2>
+              <section>
+                <h2 className="text-2xl font-bold mb-4">{t.developmentProcess}</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   {t.processIntro}
                 </p>
-                <ol className="list-decimal pl-5 space-y-2.5 text-muted-foreground">
+                <ol className="list-decimal pl-5 space-y-2 text-muted-foreground">
                   <li>{t.process1}</li>
                   <li>{t.process2}</li>
                   <li>{t.process3}</li>
@@ -222,119 +199,107 @@ export default function MigafinaProjectPage() {
                   <li>{t.process6}</li>
                   <li>{t.process7}</li>
                 </ol>
-              </motion.section>
+              </section>
 
-              <motion.section custom={2} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.keyFeatures}</h2>
+              <section>
+                <h2 className="text-2xl font-bold mb-4">{t.keyFeatures}</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <li className="bg-card/80 backdrop-blur-sm p-5 rounded-2xl border border-border/30 hover:border-primary/20 transition-colors duration-300">
-                    <h3 className="font-display font-medium mb-2">{t.responsiveDesign}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.responsiveDesign}</h3>
+                    <p className="text-sm text-muted-foreground">
                       {t.responsiveDesc}
                     </p>
                   </li>
-                  <li className="bg-card/80 backdrop-blur-sm p-5 rounded-2xl border border-border/30 hover:border-primary/20 transition-colors duration-300">
-                    <h3 className="font-display font-medium mb-2">{t.productShowcase}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.productShowcase}</h3>
+                    <p className="text-sm text-muted-foreground">
                       {t.productDesc}
                     </p>
                   </li>
-                  <li className="bg-card/80 backdrop-blur-sm p-5 rounded-2xl border border-border/30 hover:border-primary/20 transition-colors duration-300">
-                    <h3 className="font-display font-medium mb-2">{t.locationInfo}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.locationInfo}</h3>
+                    <p className="text-sm text-muted-foreground">
                       {t.locationDesc}
                     </p>
                   </li>
-                  <li className="bg-card/80 backdrop-blur-sm p-5 rounded-2xl border border-border/30 hover:border-primary/20 transition-colors duration-300">
-                    <h3 className="font-display font-medium mb-2">{t.socialMedia}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                  <li className="bg-muted/40 p-4 rounded-xl backdrop-blur-sm">
+                    <h3 className="font-medium mb-2">{t.socialMedia}</h3>
+                    <p className="text-sm text-muted-foreground">
                       {t.socialDesc}
                     </p>
                   </li>
                 </ul>
-              </motion.section>
+              </section>
 
-              <motion.section custom={3} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={sectionVariants}>
-                <h2 className="text-2xl font-display font-bold mb-4">{t.challenges}</h2>
+              <section>
+                <h2 className="text-2xl font-bold mb-4">{t.challenges}</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-display font-medium">{t.challenge1}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <h3 className="font-medium">{t.challenge1}</h3>
+                    <p className="text-muted-foreground">
                       {t.challenge1Text}
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-display font-medium">{t.solution}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <h3 className="font-medium">{t.solution}</h3>
+                    <p className="text-muted-foreground">
                       {t.solution1Text}
                     </p>
                   </div>
                 </div>
-              </motion.section>
+              </section>
             </div>
 
             <div className="space-y-8">
-              <motion.section
-                className="bg-card/80 backdrop-blur-sm p-6 rounded-2xl border border-border/30"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
-                <h2 className="text-lg font-display font-bold mb-4">{t.projectDetails}</h2>
+              <section className="bg-muted/30 p-6 rounded-xl backdrop-blur-sm">
+                <h2 className="text-xl font-bold mb-4">{t.projectDetails}</h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.client}</h3>
-                    <p className="mt-1">Migafina Bakery</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.client}</h3>
+                    <p>Migafina Bakery</p>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.timeline}</h3>
-                    <p className="mt-1">{language === "en" ? "4 weeks" : "4 semanas"}</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.timeline}</h3>
+                    <p>{language === "en" ? "4 weeks" : "4 semanas"}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.role}</h3>
-                    <p className="mt-1">{language === "en" ? "Full-stack Developer" : "Desarrollador Full-stack"}</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.role}</h3>
+                    <p>{language === "en" ? "Full-stack Developer" : "Desarrollador Full-stack"}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-primary uppercase tracking-wider">{t.website}</h3>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t.website}</h3>
                     <a
                       href="https://migafina.uy"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-primary hover:underline mt-1"
+                      className="inline-flex items-center text-primary hover:underline"
                     >
                       migafina.uy
                       <ExternalLink className="ml-1 h-3 w-3" />
                     </a>
                   </div>
                 </div>
-              </motion.section>
+              </section>
 
-              <motion.section
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              >
-                <h2 className="text-lg font-display font-bold mb-4">{t.technologiesUsed}</h2>
+              <section>
+                <h2 className="text-xl font-bold mb-4">{t.technologiesUsed}</h2>
                 <div className="flex flex-wrap gap-2">
-                  {["Next.js", "React", "JavaScript", "CSS", "Responsive Design", "Vercel"].map((tech) => (
-                    <Badge key={tech} className="bg-primary/8 hover:bg-primary/15 border-0 text-muted-foreground rounded-full transition-colors duration-300">
-                      {tech}
-                    </Badge>
-                  ))}
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Next.js</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">React</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">JavaScript</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">CSS</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Responsive Design</Badge>
+                  <Badge className="bg-secondary/40 hover:bg-secondary/60 border-0 text-muted-foreground">Vercel</Badge>
                 </div>
-              </motion.section>
+              </section>
 
-              <motion.section
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-              >
-                <h2 className="text-lg font-display font-bold mb-4">{t.links}</h2>
+              <section>
+                <h2 className="text-xl font-bold mb-4">{t.links}</h2>
                 <div className="space-y-3">
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full justify-start rounded-xl border-border/40 hover:border-primary/20 hover:bg-primary/5 transition-all duration-300"
+                    className="w-full justify-start border-0 bg-muted/20 hover:bg-muted/40"
                   >
                     <a href="https://github.com/Matteo-Daniele" target="_blank" rel="noopener noreferrer">
                       <Github className="mr-2 h-4 w-4" />
@@ -343,7 +308,7 @@ export default function MigafinaProjectPage() {
                   </Button>
                   <Button
                     asChild
-                    className="w-full justify-start rounded-xl bg-gradient-to-r from-primary/15 to-[#EA7B30]/10 hover:from-primary/25 hover:to-[#EA7B30]/15 text-primary border-0 transition-all duration-300"
+                    className="w-full justify-start bg-primary/10 hover:bg-primary/20 text-primary border-0"
                   >
                     <a href="https://migafina.uy" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-4 w-4" />
@@ -351,29 +316,23 @@ export default function MigafinaProjectPage() {
                     </a>
                   </Button>
                 </div>
-              </motion.section>
+              </section>
             </div>
           </div>
 
           {/* Next project navigation */}
-          <motion.div
-            className="mt-20 pt-8 border-t border-border/20"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="mt-20 pt-8 border-t border-border/20">
             <div className="flex justify-between items-center">
               <div></div>
               <Link
                 href="/projects/rentacar"
-                className="group inline-flex items-center text-primary font-display font-medium hover:underline"
+                className="group inline-flex items-center text-primary font-medium hover:underline"
               >
                 {t.nextProject}
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 duration-300" />
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </main>
       <Footer />

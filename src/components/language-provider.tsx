@@ -18,7 +18,7 @@ const translations: Record<Language, Record<string, string>> = {
 }
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("es")
+  const [language, setLanguageState] = useState<Language>("en")
 
   useEffect(() => {
     // Load language from localStorage
